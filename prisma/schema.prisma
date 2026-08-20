@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         String   @default("ADMIN") // ADMIN, STAFF
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Client {
+  id                    String       @id @default(cuid())
+  memberId              String       @unique // e.g. "GYM-2026-0001"
+  fullName              String
+  phone                 String
+  email                 String?
+  dateOfBirth           DateTime?
+  gender                String?      // Male, Female, Other
+  address               String?
+  emergencyContactName  String?
+  emergencyContactPhone String?
+  photoUrl              String?
+  status                String       @default("ACTIVE") // ACTIVE, SUSPENDED, INACTIVE
+  notes                 String?
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+
+  memberships           Membership[]
+  payments              Payment[]
+}
+
+model MembershipPlan {
+  id           String       @id @default(cuid())
+  name         String       // Monthly, Quarterly, Half Yearly, Yearly
+  durationDays Int          // 30, 90, 180, 365
+  price        Float        // e.g. 1500, 4000, 7000, 12000
+  description  String?
+  benefits     String?      // JSON array string of strings, e.g. ["Full gym access", "Free locker"]
+  isActive     Boolean      @default(true)
+  sortOrder    Int          @default(0)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  memberships  Membership[]
+}
+
+model Membership {
+  id            String         @id @default(cuid())
+  clientId      String
+  planId        String
+  startDate     DateTime
+  endDate       DateTime
+  amount        Float
+  discount      Float          @default(0)
+  finalAmount   Float
+  paymentStatus String         @default("PAID") // PAID, PENDING, PARTIAL
+  status        String         @default("ACTIVE") // ACTIVE, EXPIRED, EXPIRING_SOON, SUSPENDED, UPCOMING, CANCELLED
+  notes         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  client        Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  plan          MembershipPlan @relation(fields: [planId], references: [id])
+  payments      Payment[]
+}
+
+model Payment {
+  id            String      @id @default(cuid())
+  clientId      String
+  membershipId  String?
+  amount        Float
+  paymentMethod String      // CASH, UPI, CARD, BANK_TRANSFER, OTHER
+  paymentDate   DateTime    @default(now())
+  transactionId String?
+  status        String      @default("COMPLETED") // COMPLETED, PENDING, FAILED, REFUNDED
+  notes         String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  client        Client      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  membership    Membership? @relation(fields: [membershipId], references: [id], onDelete: SetNull)
+}
+
+model Trainer {
+  id             String   @id @default(cuid())
+  name           String
+  specialization String   // e.g. "Strength & Conditioning", "Bodybuilding", "Crossfit & HIIT"
+  experience     String   // e.g. "5+ Years", "8 Years Exp"
+  photoUrl       String?
+  bio            String?
+  phone          String?
+  email          String?
+  isActive       Boolean  @default(true)
+  sortOrder      Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model GymSettings {
+  id              String   @id @default("default")
+  gymName         String   @default("TITAN FORGE GYM")
+  tagline         String   @default("BUILD YOUR STRONGEST SELF")
+  logoUrl         String?
+  heroHeadline    String   @default("BUILD YOUR STRONGEST SELF.")
+  heroDescription String   @default("Raw iron, expert trainers, and an unforgiving atmosphere built to sculpt greatness. No excuses, only results.")
+  address         String   @default("Plot 42, Ironworks Industrial Estate, 2nd Cross, Near Metro Station")
+  phone           String   @default("+91 98765 43210")
+  whatsappNumber  String   @default("919876543210")
+  email           String   @default("contact@titanforgegym.com")
+  openingHours    String   @default("Mon - Sat: 5:00 AM - 11:00 PM | Sun: 6:00 AM - 8:00 PM")
+  googleMapsUrl   String   @default("https://maps.google.com")
+  instagramUrl    String?  @default("https://instagram.com")
+  facebookUrl     String?  @default("https://facebook.com")
+  youtubeUrl      String?
+  currencySymbol  String   @default("₹")
+  memberIdPrefix  String   @default("GYM")
+  updatedAt       DateTime @updatedAt
+}
