@@ -1,17 +1,38 @@
-import "dotenv/config";
 import { PrismaLibSql } from "@prisma/adapter-libsql";
 import { PrismaClient } from "@prisma/client";
 
-const globalForPrisma = global as unknown as { prisma: PrismaClient };
+declare global {
+  // eslint-disable-next-line no-var
+  var __prisma: PrismaClient | undefined;
+}
 
-function makePrismaClient() {
-  const url = process.env.DATABASE_URL || "file:./dev.db";
-  const adapter = new PrismaLibSql({ url });
+function makePrismaClient(): PrismaClient {
+  const url =
+    process.env.TURSO_DATABASE_URL ||
+    process.env.DATABASE_URL ||
+    "file:./dev.db";
+
+  const authToken =
+    process.env.TURSO_AUTH_TOKEN ||
+    process.env.DATABASE_AUTH_TOKEN;
+
+  const adapter = new PrismaLibSql({ url, authToken });
   return new PrismaClient({ adapter });
 }
 
-export const prisma = globalForPrisma.prisma || makePrismaClient();
+// Lazily create the client so importing this module doesn't throw during
+// Next.js static analysis / build phase when env vars are not yet present.
+function getClient(): PrismaClient {
+  if (!global.__prisma) {
+    global.__prisma = makePrismaClient();
+  }
+  return global.__prisma;
+}
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+export const prisma: PrismaClient = new Proxy({} as PrismaClient, {
+  get(_target, prop) {
+    return (getClient() as unknown as Record<string | symbol, unknown>)[prop];
+  },
+});
 
 export default prisma;
