@@ -1,5 +1,4 @@
-// TODO: Replace with Firebase Authentication
-// TEMPORARY DEVELOPMENT AUTHENTICATION — DO NOT STORE IN DATABASE
+// TEMPORARY DEMO AUTH — replace with Firebase authentication later.
 
 import { NextResponse } from "next/server";
 import { createSessionToken, COOKIE_NAME } from "@/lib/auth";

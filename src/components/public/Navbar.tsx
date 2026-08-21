@@ -18,11 +18,11 @@ export default function PublicNavbar() {
   ];
 
   return (
-    <div className="floating-navbar-wrapper">
-      <nav className="floating-navbar">
+    <header className="public-navbar-header">
+      <div className="public-navbar-container">
         {/* Left: Brand Logo */}
         <Link href="/" className="logo-text">
-          <Dumbbell size={24} style={{ color: "var(--accent-red)" }} />
+          <Dumbbell size={22} style={{ color: "var(--accent-red)" }} />
           <span>TITAN</span> FORGE
         </Link>
 
@@ -49,7 +49,7 @@ export default function PublicNavbar() {
             href="/admin"
             className="btn btn-secondary btn-sm"
             id="nav-admin-btn"
-            title="Admin Portal"
+            title="Admin & Staff Portal"
             style={{ display: "inline-flex", alignItems: "center", gap: "5px" }}
           >
             <Shield size={13} /> ADMIN
@@ -67,7 +67,7 @@ export default function PublicNavbar() {
             {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
-      </nav>
+      </div>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
@@ -78,20 +78,20 @@ export default function PublicNavbar() {
               href={link.href}
               className={`public-nav-link ${pathname === link.href ? "active" : ""}`}
               style={{
-                padding: "10px 0",
+                padding: "8px 0",
                 display: "block",
                 borderBottom: "1px solid var(--border)",
-                fontSize: "1.05rem",
+                fontSize: "1rem",
               }}
               onClick={() => setMobileMenuOpen(false)}
             >
               {link.name}
             </Link>
           ))}
-          <div style={{ display: "flex", gap: "10px", marginTop: "14px" }}>
+          <div style={{ display: "flex", gap: "10px", marginTop: "12px" }}>
             <Link
               href="/join"
-              className="btn btn-primary"
+              className="btn btn-primary btn-sm"
               style={{ flex: 1 }}
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -99,15 +99,15 @@ export default function PublicNavbar() {
             </Link>
             <Link
               href="/admin"
-              className="btn btn-secondary"
+              className="btn btn-secondary btn-sm"
               style={{ display: "flex", alignItems: "center", gap: "6px" }}
               onClick={() => setMobileMenuOpen(false)}
             >
-              <Shield size={15} /> ADMIN
+              <Shield size={14} /> ADMIN
             </Link>
           </div>
         </div>
       )}
-    </div>
+    </header>
   );
 }
