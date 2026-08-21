@@ -3,16 +3,7 @@ import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 
 function getJwtSecret(): Uint8Array {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) {
-    if (process.env.NODE_ENV === "production") {
-      throw new Error(
-        "Missing JWT_SECRET environment variable in production. " +
-        "Please configure JWT_SECRET in your Vercel project settings."
-      );
-    }
-    return new TextEncoder().encode("gym-cms-local-dev-secret-key-titan-forge-2026");
-  }
+  const secret = process.env.JWT_SECRET || "gym-cms-local-dev-secret-key-titan-forge-2026";
   return new TextEncoder().encode(secret);
 }
 

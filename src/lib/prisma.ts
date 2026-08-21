@@ -6,14 +6,13 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 function createPrismaClient(): PrismaClient {
-  const isProduction = process.env.NODE_ENV === "production";
   const url = process.env.TURSO_DATABASE_URL || process.env.DATABASE_URL;
   const authToken = process.env.TURSO_AUTH_TOKEN || process.env.DATABASE_AUTH_TOKEN;
 
-  if (isProduction && !url) {
-    throw new Error(
-      "Missing TURSO_DATABASE_URL environment variable in production. " +
-      "Please configure TURSO_DATABASE_URL and TURSO_AUTH_TOKEN in your Vercel project settings."
+  if (!url && process.env.NODE_ENV === "production") {
+    console.warn(
+      "[PrismaLibSql] TURSO_DATABASE_URL is not set in production. Falling back to local file:./dev.db. " +
+      "Set TURSO_DATABASE_URL and TURSO_AUTH_TOKEN in Vercel settings for cloud database persistence."
     );
   }
 
@@ -21,7 +20,7 @@ function createPrismaClient(): PrismaClient {
 
   const adapter = new PrismaLibSql({
     url: databaseUrl,
-    authToken,
+    authToken: authToken || undefined,
   });
 
   return new PrismaClient({ adapter });

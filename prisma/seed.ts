@@ -388,9 +388,30 @@ async function main() {
         });
       }
     }
+
+    // Seed recent attendance records if none exist for this client
+    const existingAttendance = await prisma.attendance.findFirst({
+      where: { clientId: client.id },
+    });
+
+    if (!existingAttendance) {
+      const checkInTime = new Date();
+      checkInTime.setHours(6 + Math.floor(Math.random() * 12), Math.floor(Math.random() * 60), 0, 0);
+      const checkOutTime = new Date(checkInTime);
+      checkOutTime.setMinutes(checkOutTime.getMinutes() + 60 + Math.floor(Math.random() * 45));
+
+      await prisma.attendance.create({
+        data: {
+          clientId: client.id,
+          date: today,
+          checkIn: checkInTime,
+          checkOut: checkOutTime,
+        },
+      });
+    }
   }
 
-  console.log(`✓ ${clientSeedData.length} Sample Clients checked/seeded`);
+  console.log(`✓ ${clientSeedData.length} Sample Clients & Attendance checked/seeded`);
   console.log("🚀 Database seeding complete!");
 }
 
