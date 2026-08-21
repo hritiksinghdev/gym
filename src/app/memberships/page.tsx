@@ -84,13 +84,13 @@ export default async function MembershipsPage() {
                     <div
                       style={{
                         position: "absolute",
-                        top: "-11px",
-                        right: "16px",
+                        top: "-10px",
+                        right: "14px",
                         background: "var(--accent-red)",
                         color: "#fff",
-                        fontSize: "0.7rem",
+                        fontSize: "0.68rem",
                         fontWeight: 800,
-                        padding: "3px 10px",
+                        padding: "2px 8px",
                         borderRadius: "var(--radius-sm)",
                         textTransform: "uppercase",
                         letterSpacing: "0.5px",
@@ -104,22 +104,22 @@ export default async function MembershipsPage() {
                     <h3
                       style={{
                         fontFamily: "var(--font-display)",
-                        fontSize: "1.6rem",
+                        fontSize: "1.45rem",
                         color: "#fff",
-                        marginBottom: "4px",
+                        marginBottom: "3px",
                       }}
                     >
                       {plan.name}
                     </h3>
-                    <div style={{ color: "var(--text-muted)", fontSize: "0.82rem", marginBottom: "18px" }}>
+                    <div style={{ color: "var(--text-muted)", fontSize: "0.8rem", marginBottom: "16px" }}>
                       Full Access · {plan.durationDays} Days
                     </div>
 
-                    <div style={{ marginBottom: "20px" }}>
+                    <div style={{ marginBottom: "16px" }}>
                       <span
                         style={{
                           fontFamily: "var(--font-display)",
-                          fontSize: "2.6rem",
+                          fontSize: "2.4rem",
                           fontWeight: 900,
                           color: "var(--text-white)",
                           lineHeight: 1,
@@ -133,9 +133,9 @@ export default async function MembershipsPage() {
                       <p
                         style={{
                           color: "var(--text-secondary)",
-                          fontSize: "0.88rem",
-                          marginBottom: "20px",
-                          lineHeight: "1.55",
+                          fontSize: "0.85rem",
+                          marginBottom: "16px",
+                          lineHeight: "1.5",
                         }}
                       >
                         {plan.description}
@@ -144,38 +144,38 @@ export default async function MembershipsPage() {
 
                     <div
                       style={{
-                        paddingTop: "16px",
+                        paddingTop: "14px",
                         borderTop: "1px solid var(--border)",
-                        marginBottom: "28px",
+                        marginBottom: "22px",
                       }}
                     >
                       <div
                         style={{
-                          fontSize: "0.72rem",
+                          fontSize: "0.7rem",
                           fontWeight: 700,
                           textTransform: "uppercase",
                           color: "var(--text-muted)",
                           letterSpacing: "1px",
-                          marginBottom: "12px",
+                          marginBottom: "10px",
                         }}
                       >
                         INCLUDED:
                       </div>
-                      <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
+                      <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "8px" }}>
                         {benefitsList.map((b, i) => (
                           <li
                             key={i}
                             style={{
                               display: "flex",
                               alignItems: "flex-start",
-                              gap: "9px",
-                              fontSize: "0.86rem",
+                              gap: "8px",
+                              fontSize: "0.84rem",
                               color: "var(--text-primary)",
                             }}
                           >
                             <CheckCircle2
-                              size={14}
-                              style={{ color: "var(--accent-red)", flexShrink: 0, marginTop: "2px" }}
+                              size={13}
+                              style={{ color: "var(--accent-red)", flexShrink: 0, marginTop: "3px" }}
                             />
                             <span>{b}</span>
                           </li>
@@ -196,41 +196,41 @@ export default async function MembershipsPage() {
             })}
           </div>
 
-          {/* Terms notice — no heavy card border */}
-          <div style={{ marginTop: "64px" }}>
+          {/* Terms notice */}
+          <div style={{ marginTop: "56px" }}>
             <div className="section-header">
               <span className="section-label">Membership Terms</span>
               <h3
                 style={{
                   fontFamily: "var(--font-display)",
-                  fontSize: "1.6rem",
+                  fontSize: "1.4rem",
                   color: "#fff",
                   display: "flex",
                   alignItems: "center",
-                  gap: "10px",
+                  gap: "8px",
                 }}
               >
-                <ShieldCheck size={22} style={{ color: "var(--accent-red)" }} />
+                <ShieldCheck size={20} style={{ color: "var(--accent-red)" }} />
                 MEMBERSHIP GUARANTEES
               </h3>
             </div>
 
             <div className="grid-3">
               <div>
-                <h4 style={{ fontSize: "1rem", color: "#fff", marginBottom: "6px" }}>Instant Activation</h4>
-                <p style={{ color: "var(--text-secondary)", fontSize: "0.88rem", lineHeight: "1.55" }}>
+                <h4 style={{ fontSize: "0.95rem", color: "#fff", marginBottom: "4px" }}>Instant Activation</h4>
+                <p style={{ color: "var(--text-secondary)", fontSize: "0.85rem", lineHeight: "1.5" }}>
                   Your membership begins immediately upon registration or your custom chosen start date.
                 </p>
               </div>
               <div>
-                <h4 style={{ fontSize: "1rem", color: "#fff", marginBottom: "6px" }}>Locker &amp; Shower Access</h4>
-                <p style={{ color: "var(--text-secondary)", fontSize: "0.88rem", lineHeight: "1.55" }}>
+                <h4 style={{ fontSize: "0.95rem", color: "#fff", marginBottom: "4px" }}>Locker &amp; Shower Access</h4>
+                <p style={{ color: "var(--text-secondary)", fontSize: "0.85rem", lineHeight: "1.5" }}>
                   All plans include complimentary day locker usage and high-pressure hot shower amenities.
                 </p>
               </div>
               <div>
-                <h4 style={{ fontSize: "1rem", color: "#fff", marginBottom: "6px" }}>Renewal Reminders</h4>
-                <p style={{ color: "var(--text-secondary)", fontSize: "0.88rem", lineHeight: "1.55" }}>
+                <h4 style={{ fontSize: "0.95rem", color: "#fff", marginBottom: "4px" }}>Renewal Reminders</h4>
+                <p style={{ color: "var(--text-secondary)", fontSize: "0.85rem", lineHeight: "1.5" }}>
                   We send polite reminders before your expiry date so you never experience interrupted training.
                 </p>
               </div>

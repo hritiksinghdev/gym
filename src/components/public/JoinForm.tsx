@@ -123,17 +123,17 @@ export default function JoinForm() {
 
   const selectedPlan = plans.find((p) => p.id === formData.planId);
 
-  // ─── Success State ────────────────────────────────────────────────────────
+  // Success State
   if (successData) {
     const whatsappMsg = `Hi Titan Forge Gym! I just registered online.\nName: ${successData.clientName}\nMember ID: ${successData.memberId}\nPlan: ${successData.planName}`;
     const deskWhatsappUrl = generateWhatsAppUrl("919876543210", whatsappMsg);
 
     return (
-      <div className="container" style={{ padding: "80px var(--container-pad)", maxWidth: "640px" }}>
+      <div className="container" style={{ padding: "120px var(--container-pad) 80px", maxWidth: "600px" }}>
         <div
           style={{
             textAlign: "center",
-            padding: "52px 40px",
+            padding: "44px 32px",
             border: "1px solid var(--accent-red)",
             borderRadius: "var(--radius-md)",
             backgroundColor: "var(--bg-card)",
@@ -141,28 +141,28 @@ export default function JoinForm() {
         >
           <div
             style={{
-              width: "68px",
-              height: "68px",
+              width: "60px",
+              height: "60px",
               background: "rgba(46, 204, 113, 0.12)",
               border: "1px solid #2ecc71",
               borderRadius: "50%",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              margin: "0 auto 24px",
+              margin: "0 auto 20px",
               color: "#2ecc71",
             }}
           >
-            <CheckCircle2 size={36} />
+            <CheckCircle2 size={32} />
           </div>
 
           <span className="section-label">Membership Activated</span>
           <h1
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: "2.2rem",
+              fontSize: "2rem",
               color: "#fff",
-              marginBottom: "14px",
+              marginBottom: "12px",
             }}
           >
             WELCOME TO THE FORGE
@@ -170,9 +170,9 @@ export default function JoinForm() {
           <p
             style={{
               color: "var(--text-secondary)",
-              fontSize: "0.95rem",
-              lineHeight: "1.65",
-              marginBottom: "32px",
+              fontSize: "0.92rem",
+              lineHeight: "1.6",
+              marginBottom: "28px",
             }}
           >
             Your registration is confirmed. Present your Member ID at the front desk when you arrive.
@@ -183,9 +183,9 @@ export default function JoinForm() {
             style={{
               background: "var(--bg-surface)",
               borderRadius: "var(--radius-sm)",
-              padding: "20px",
+              padding: "18px",
               textAlign: "left",
-              marginBottom: "28px",
+              marginBottom: "24px",
             }}
           >
             {[
@@ -207,18 +207,18 @@ export default function JoinForm() {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  paddingBottom: i < 3 ? "12px" : 0,
-                  marginBottom: i < 3 ? "12px" : 0,
+                  paddingBottom: i < 3 ? "10px" : 0,
+                  marginBottom: i < 3 ? "10px" : 0,
                   borderBottom: i < 3 ? "1px solid var(--border)" : "none",
                 }}
               >
-                <span style={{ color: "var(--text-muted)", fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.8px" }}>
+                <span style={{ color: "var(--text-muted)", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.8px" }}>
                   {row.label}
                 </span>
                 <span
                   style={{
                     fontFamily: row.accent ? "var(--font-display)" : "inherit",
-                    fontSize: row.accent ? "1.2rem" : "0.9rem",
+                    fontSize: row.accent ? "1.15rem" : "0.88rem",
                     fontWeight: row.accent ? 900 : 600,
                     color: row.accent ? "var(--accent-red)" : row.green ? "#2ecc71" : "#fff",
                   }}
@@ -234,12 +234,12 @@ export default function JoinForm() {
               href={deskWhatsappUrl}
               target="_blank"
               rel="noreferrer"
-              className="btn btn-whatsapp"
+              className="btn btn-whatsapp btn-pill"
               style={{ width: "100%" }}
             >
-              <MessageSquare size={17} /> CONFIRM WITH FRONT DESK ON WHATSAPP
+              <MessageSquare size={16} /> CONFIRM WITH FRONT DESK ON WHATSAPP
             </a>
-            <Link href="/" className="btn btn-secondary" style={{ width: "100%" }}>
+            <Link href="/" className="btn btn-secondary btn-pill" style={{ width: "100%" }}>
               RETURN TO HOMEPAGE
             </Link>
           </div>
@@ -248,37 +248,36 @@ export default function JoinForm() {
     );
   }
 
-  // ─── Form ─────────────────────────────────────────────────────────────────
   return (
-    <div className="container" style={{ padding: "72px var(--container-pad) 80px", maxWidth: "780px" }}>
-      {/* Page heading */}
-      <div style={{ marginBottom: "52px" }}>
+    <div className="container" style={{ padding: "120px var(--container-pad) 80px", maxWidth: "740px" }}>
+      {/* Page Heading */}
+      <div style={{ marginBottom: "44px" }}>
         <span className="section-label">New Member Enrollment</span>
         <h1
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(2rem, 4vw, 3rem)",
+            fontSize: "clamp(2rem, 3.5vw, 2.6rem)",
             color: "#fff",
-            marginBottom: "10px",
+            marginBottom: "8px",
           }}
         >
           JOIN TITAN FORGE
         </h1>
-        <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: "1.6", maxWidth: "540px" }}>
+        <p style={{ color: "var(--text-secondary)", fontSize: "0.92rem", lineHeight: "1.6", maxWidth: "520px" }}>
           Fill in your details below to generate your official Member ID and register your membership.
         </p>
       </div>
 
       {/* Error banner */}
       {errorMessage && (
-        <div className="login-error" style={{ marginBottom: "28px" }}>
-          <AlertCircle size={17} />
+        <div className="login-error" style={{ marginBottom: "24px" }}>
+          <AlertCircle size={16} />
           <span>{errorMessage}</span>
         </div>
       )}
 
       <form onSubmit={handleSubmit}>
-        {/* ── 01 Personal Information ── */}
+        {/* 01 Personal Information */}
         <div className="join-section">
           <div className="join-section-header">
             <div className="join-section-number">01</div>
@@ -288,7 +287,7 @@ export default function JoinForm() {
             </div>
           </div>
 
-          <div className="form-row" style={{ gap: "20px" }}>
+          <div className="form-row" style={{ gap: "16px" }}>
             <div className="form-group">
               <label className="form-label">Full Name *</label>
               <input
@@ -314,7 +313,7 @@ export default function JoinForm() {
             </div>
           </div>
 
-          <div className="form-row" style={{ gap: "20px", marginTop: "16px" }}>
+          <div className="form-row" style={{ gap: "16px", marginTop: "14px" }}>
             <div className="form-group">
               <label className="form-label">Email Address</label>
               <input
@@ -350,7 +349,7 @@ export default function JoinForm() {
             </div>
           </div>
 
-          <div className="form-group" style={{ marginTop: "16px" }}>
+          <div className="form-group" style={{ marginTop: "14px" }}>
             <label className="form-label">Residential Address</label>
             <input
               type="text"
@@ -362,7 +361,7 @@ export default function JoinForm() {
           </div>
         </div>
 
-        {/* ── 02 Emergency Contact ── */}
+        {/* 02 Emergency Contact */}
         <div className="join-section">
           <div className="join-section-header">
             <div className="join-section-number">02</div>
@@ -372,7 +371,7 @@ export default function JoinForm() {
             </div>
           </div>
 
-          <div className="form-row" style={{ gap: "20px" }}>
+          <div className="form-row" style={{ gap: "16px" }}>
             <div className="form-group">
               <label className="form-label">Contact Name</label>
               <input
@@ -397,8 +396,8 @@ export default function JoinForm() {
           </div>
         </div>
 
-        {/* ── 03 Membership ── */}
-        <div className="join-section" style={{ paddingBottom: "0", marginBottom: "36px" }}>
+        {/* 03 Membership */}
+        <div className="join-section" style={{ paddingBottom: "0", marginBottom: "32px" }}>
           <div className="join-section-header">
             <div className="join-section-number">03</div>
             <div className="join-section-title-wrap">
@@ -407,11 +406,11 @@ export default function JoinForm() {
             </div>
           </div>
 
-          <div className="form-row" style={{ gap: "20px" }}>
+          <div className="form-row" style={{ gap: "16px" }}>
             <div className="form-group" style={{ flex: 2 }}>
               <label className="form-label">Select Plan *</label>
               {loadingPlans ? (
-                <div style={{ color: "var(--text-secondary)", fontSize: "0.9rem", padding: "12px 0" }}>
+                <div style={{ color: "var(--text-secondary)", fontSize: "0.88rem", padding: "10px 0" }}>
                   Loading plans...
                 </div>
               ) : (
@@ -445,28 +444,28 @@ export default function JoinForm() {
           {selectedPlan && (
             <div
               style={{
-                marginTop: "16px",
+                marginTop: "14px",
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                padding: "14px 18px",
+                padding: "12px 16px",
                 background: "var(--bg-surface)",
                 borderRadius: "var(--radius-sm)",
                 border: "1px solid var(--border)",
               }}
             >
               <div>
-                <div style={{ color: "#fff", fontWeight: 600, fontSize: "0.95rem" }}>
+                <div style={{ color: "#fff", fontWeight: 600, fontSize: "0.92rem" }}>
                   {selectedPlan.name}
                 </div>
-                <div style={{ color: "var(--text-muted)", fontSize: "0.82rem" }}>
+                <div style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>
                   {selectedPlan.durationDays} Days Access
                 </div>
               </div>
               <div
                 style={{
                   fontFamily: "var(--font-display)",
-                  fontSize: "1.8rem",
+                  fontSize: "1.6rem",
                   fontWeight: 900,
                   color: "var(--accent-red)",
                 }}
@@ -481,11 +480,11 @@ export default function JoinForm() {
           type="submit"
           id="join-submit-btn"
           disabled={submitting}
-          className="btn btn-primary btn-lg"
+          className="btn btn-primary btn-lg btn-pill"
           style={{ width: "100%" }}
         >
           {submitting ? "GENERATING MEMBER ID..." : "SUBMIT REGISTRATION"}{" "}
-          {!submitting && <ArrowRight size={18} />}
+          {!submitting && <ArrowRight size={16} />}
         </button>
       </form>
     </div>

@@ -18,78 +18,77 @@ export default function PublicNavbar() {
   ];
 
   return (
-    <nav className="public-navbar">
-      <div className="container public-navbar-inner">
+    <div className="floating-navbar-wrapper">
+      <nav className="floating-navbar">
+        {/* Left: Brand Logo */}
         <Link href="/" className="logo-text">
-          <Dumbbell size={26} style={{ color: "var(--accent-red)" }} />
+          <Dumbbell size={24} style={{ color: "var(--accent-red)" }} />
           <span>TITAN</span> FORGE
         </Link>
 
-        {/* Desktop Links */}
+        {/* Center: Navigation Links */}
         <ul className="public-nav-links">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className={`public-nav-link ${pathname === link.href ? "active" : ""}`}
-              >
-                {link.name}
-              </Link>
-            </li>
-          ))}
-          <li>
-            <Link href="/join" className="btn btn-primary btn-sm" id="nav-join-btn">
-              JOIN NOW
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/admin"
-              className="btn btn-secondary btn-sm"
-              id="nav-admin-btn"
-              title="Admin Portal"
-              style={{ display: "flex", alignItems: "center", gap: "5px" }}
-            >
-              <Shield size={14} /> ADMIN
-            </Link>
-          </li>
+          {navLinks.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className={`public-nav-link ${active ? "active" : ""}`}
+                >
+                  {link.name}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
-        {/* Mobile hamburger — shown via CSS at ≤900px */}
-        <button
-          className="nav-hamburger"
-          id="mobile-menu-btn"
-          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
-      </div>
+        {/* Right: Actions */}
+        <div className="nav-actions">
+          <Link
+            href="/admin"
+            className="btn btn-secondary btn-sm"
+            id="nav-admin-btn"
+            title="Admin Portal"
+            style={{ display: "inline-flex", alignItems: "center", gap: "5px" }}
+          >
+            <Shield size={13} /> ADMIN
+          </Link>
+          <Link href="/join" className="btn btn-primary btn-sm btn-pill" id="nav-join-btn">
+            JOIN NOW
+          </Link>
+          {/* Mobile hamburger button */}
+          <button
+            className="nav-hamburger"
+            id="mobile-menu-btn"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
+        </div>
+      </nav>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div
-          style={{
-            background: "var(--bg-surface)",
-            borderTop: "1px solid var(--border)",
-            padding: "20px var(--container-pad)",
-            display: "flex",
-            flexDirection: "column",
-            gap: "4px",
-          }}
-        >
+        <div className="mobile-nav-drawer">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={`public-nav-link ${pathname === link.href ? "active" : ""}`}
-              style={{ padding: "10px 0", display: "block", borderBottom: "1px solid var(--border)", fontSize: "1.15rem" }}
+              style={{
+                padding: "10px 0",
+                display: "block",
+                borderBottom: "1px solid var(--border)",
+                fontSize: "1.05rem",
+              }}
               onClick={() => setMobileMenuOpen(false)}
             >
               {link.name}
             </Link>
           ))}
-          <div style={{ display: "flex", gap: "12px", marginTop: "16px" }}>
+          <div style={{ display: "flex", gap: "10px", marginTop: "14px" }}>
             <Link
               href="/join"
               className="btn btn-primary"
@@ -104,11 +103,11 @@ export default function PublicNavbar() {
               style={{ display: "flex", alignItems: "center", gap: "6px" }}
               onClick={() => setMobileMenuOpen(false)}
             >
-              <Shield size={16} /> ADMIN
+              <Shield size={15} /> ADMIN
             </Link>
           </div>
         </div>
       )}
-    </nav>
+    </div>
   );
 }

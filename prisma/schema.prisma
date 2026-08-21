@@ -28,13 +28,20 @@ model Client {
   emergencyContactName  String?
   emergencyContactPhone String?
   photoUrl              String?
-  status                String       @default("ACTIVE") // ACTIVE, SUSPENDED, INACTIVE
+  status                String       @default("ACTIVE") // ACTIVE, SUSPENDED, INACTIVE, EXPIRED
+  joinedAt              DateTime     @default(now())
   notes                 String?
   createdAt             DateTime     @default(now())
   updatedAt             DateTime     @updatedAt
 
   memberships           Membership[]
   payments              Payment[]
+  attendances           Attendance[]
+
+  @@index([memberId])
+  @@index([email])
+  @@index([phone])
+  @@index([status])
 }
 
 model MembershipPlan {
@@ -50,6 +57,8 @@ model MembershipPlan {
   updatedAt    DateTime     @updatedAt
 
   memberships  Membership[]
+
+  @@index([isActive])
 }
 
 model Membership {
@@ -70,6 +79,11 @@ model Membership {
   client        Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
   plan          MembershipPlan @relation(fields: [planId], references: [id])
   payments      Payment[]
+
+  @@index([clientId])
+  @@index([planId])
+  @@index([status])
+  @@index([endDate])
 }
 
 model Payment {
@@ -87,6 +101,11 @@ model Payment {
 
   client        Client      @relation(fields: [clientId], references: [id], onDelete: Cascade)
   membership    Membership? @relation(fields: [membershipId], references: [id], onDelete: SetNull)
+
+  @@index([clientId])
+  @@index([membershipId])
+  @@index([status])
+  @@index([paymentDate])
 }
 
 model Trainer {
@@ -99,9 +118,26 @@ model Trainer {
   phone          String?
   email          String?
   isActive       Boolean  @default(true)
+  status         String   @default("ACTIVE") // ACTIVE, INACTIVE
   sortOrder      Int      @default(0)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+
+  @@index([isActive])
+}
+
+model Attendance {
+  id        String    @id @default(cuid())
+  clientId  String
+  checkIn   DateTime  @default(now())
+  checkOut  DateTime?
+  date      DateTime  @default(now())
+  createdAt DateTime  @default(now())
+
+  client    Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([clientId])
+  @@index([date])
 }
 
 model GymSettings {

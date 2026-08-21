@@ -53,16 +53,28 @@ export default function AdminSidebar({ gymName = "TITAN FORGE" }: AdminSidebarPr
     return pathname.startsWith(item.href);
   };
 
+  const firstName = gymName.split(" ")[0] || "TITAN";
+  const secondName = gymName.split(" ").slice(1).join(" ") || "FORGE";
+
   return (
     <aside className="admin-sidebar">
       {/* Sidebar Header */}
       <div className="admin-sidebar-header">
-        <Link href="/admin" className="logo-text" style={{ fontSize: "1.4rem" }}>
-          <Dumbbell size={24} style={{ color: "var(--accent-red)" }} />
-          <span>{gymName.split(" ")[0]}</span> {gymName.split(" ").slice(1).join(" ") || "GYM"}
+        <Link href="/admin" className="logo-text" style={{ fontSize: "1.25rem" }}>
+          <Dumbbell size={20} style={{ color: "var(--accent-red)" }} />
+          <span>{firstName}</span> {secondName}
         </Link>
-        <div style={{ color: "var(--text-muted)", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", marginTop: "4px" }}>
-          MANAGEMENT SYSTEM
+        <div
+          style={{
+            color: "var(--text-muted)",
+            fontSize: "0.7rem",
+            fontWeight: 700,
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            marginTop: "3px",
+          }}
+        >
+          MANAGEMENT PORTAL
         </div>
       </div>
 
@@ -77,14 +89,14 @@ export default function AdminSidebar({ gymName = "TITAN FORGE" }: AdminSidebarPr
               href={item.href}
               className={`admin-nav-item ${active ? "active" : ""}`}
             >
-              <Icon size={18} />
+              <Icon size={16} />
               <span>{item.name}</span>
             </Link>
           );
         })}
       </nav>
 
-      {/* Sidebar Footer / Quick Links & Logout */}
+      {/* Sidebar Footer */}
       <div className="admin-sidebar-footer">
         <Link
           href="/"
@@ -92,15 +104,16 @@ export default function AdminSidebar({ gymName = "TITAN FORGE" }: AdminSidebarPr
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "8px",
+            gap: "7px",
             color: "var(--text-secondary)",
-            fontSize: "0.85rem",
-            padding: "8px 10px",
+            fontSize: "0.8rem",
+            padding: "6px 8px",
             borderRadius: "var(--radius-sm)",
-            marginBottom: "8px",
+            marginBottom: "6px",
+            transition: "color 0.15s ease",
           }}
         >
-          <ExternalLink size={15} /> View Public Website
+          <ExternalLink size={14} /> Public Website
         </Link>
 
         <button
@@ -110,10 +123,11 @@ export default function AdminSidebar({ gymName = "TITAN FORGE" }: AdminSidebarPr
             width: "100%",
             justifyContent: "flex-start",
             color: "var(--status-danger-text)",
-            borderColor: "#333",
+            borderColor: "rgba(255, 255, 255, 0.1)",
+            fontSize: "0.8rem",
           }}
         >
-          <LogOut size={16} /> Sign Out
+          <LogOut size={14} /> Sign Out
         </button>
       </div>
     </aside>

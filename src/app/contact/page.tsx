@@ -52,24 +52,24 @@ export default async function ContactPage() {
       {/* Contact Info */}
       <section className="section">
         <div className="container">
-          <div className="grid-2" style={{ gap: "48px", alignItems: "flex-start" }}>
+          <div className="grid-2" style={{ gap: "40px", alignItems: "flex-start" }}>
             {/* Left: contact rows + WhatsApp */}
             <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
               {/* Address */}
               <div
                 style={{
                   display: "flex",
-                  gap: "16px",
+                  gap: "14px",
                   alignItems: "flex-start",
-                  paddingBottom: "24px",
-                  marginBottom: "24px",
+                  paddingBottom: "20px",
+                  marginBottom: "20px",
                   borderBottom: "1px solid var(--border)",
                 }}
               >
                 <div
                   style={{
-                    width: "40px",
-                    height: "40px",
+                    width: "38px",
+                    height: "38px",
                     background: "var(--accent-red-glow)",
                     borderRadius: "var(--radius-sm)",
                     display: "flex",
@@ -79,22 +79,22 @@ export default async function ContactPage() {
                     flexShrink: 0,
                   }}
                 >
-                  <MapPin size={20} />
+                  <MapPin size={18} />
                 </div>
                 <div>
                   <div
                     style={{
-                      fontSize: "0.75rem",
+                      fontSize: "0.72rem",
                       fontWeight: 700,
                       textTransform: "uppercase",
                       letterSpacing: "1px",
                       color: "var(--text-muted)",
-                      marginBottom: "4px",
+                      marginBottom: "3px",
                     }}
                   >
                     Gym Address
                   </div>
-                  <p style={{ color: "var(--text-primary)", fontSize: "0.95rem", lineHeight: "1.5" }}>
+                  <p style={{ color: "var(--text-primary)", fontSize: "0.92rem", lineHeight: "1.5" }}>
                     {address}
                   </p>
                   <a
@@ -107,11 +107,11 @@ export default async function ContactPage() {
                       gap: "5px",
                       color: "var(--accent-red)",
                       fontWeight: 600,
-                      fontSize: "0.84rem",
-                      marginTop: "8px",
+                      fontSize: "0.82rem",
+                      marginTop: "6px",
                     }}
                   >
-                    Open in Google Maps <ExternalLink size={13} />
+                    Open in Google Maps <ExternalLink size={12} />
                   </a>
                 </div>
               </div>
@@ -120,17 +120,17 @@ export default async function ContactPage() {
               <div
                 style={{
                   display: "flex",
-                  gap: "16px",
+                  gap: "14px",
                   alignItems: "flex-start",
-                  paddingBottom: "24px",
-                  marginBottom: "24px",
+                  paddingBottom: "20px",
+                  marginBottom: "20px",
                   borderBottom: "1px solid var(--border)",
                 }}
               >
                 <div
                   style={{
-                    width: "40px",
-                    height: "40px",
+                    width: "38px",
+                    height: "38px",
                     background: "var(--accent-red-glow)",
                     borderRadius: "var(--radius-sm)",
                     display: "flex",
@@ -140,22 +140,22 @@ export default async function ContactPage() {
                     flexShrink: 0,
                   }}
                 >
-                  <Clock size={20} />
+                  <Clock size={18} />
                 </div>
                 <div>
                   <div
                     style={{
-                      fontSize: "0.75rem",
+                      fontSize: "0.72rem",
                       fontWeight: 700,
                       textTransform: "uppercase",
                       letterSpacing: "1px",
                       color: "var(--text-muted)",
-                      marginBottom: "4px",
+                      marginBottom: "3px",
                     }}
                   >
                     Training Hours
                   </div>
-                  <p style={{ color: "var(--text-primary)", fontSize: "0.95rem", lineHeight: "1.6" }}>
+                  <p style={{ color: "var(--text-primary)", fontSize: "0.92rem", lineHeight: "1.55" }}>
                     {openingHours}
                   </p>
                 </div>
@@ -165,17 +165,17 @@ export default async function ContactPage() {
               <div
                 style={{
                   display: "flex",
-                  gap: "16px",
+                  gap: "14px",
                   alignItems: "flex-start",
-                  paddingBottom: "28px",
-                  marginBottom: "28px",
+                  paddingBottom: "24px",
+                  marginBottom: "24px",
                   borderBottom: "1px solid var(--border)",
                 }}
               >
                 <div
                   style={{
-                    width: "40px",
-                    height: "40px",
+                    width: "38px",
+                    height: "38px",
                     background: "var(--accent-red-glow)",
                     borderRadius: "var(--radius-sm)",
                     display: "flex",
@@ -185,26 +185,26 @@ export default async function ContactPage() {
                     flexShrink: 0,
                   }}
                 >
-                  <Phone size={20} />
+                  <Phone size={18} />
                 </div>
                 <div>
                   <div
                     style={{
-                      fontSize: "0.75rem",
+                      fontSize: "0.72rem",
                       fontWeight: 700,
                       textTransform: "uppercase",
                       letterSpacing: "1px",
                       color: "var(--text-muted)",
-                      marginBottom: "4px",
+                      marginBottom: "3px",
                     }}
                   >
                     Phone &amp; Email
                   </div>
-                  <p style={{ color: "var(--text-primary)", fontSize: "0.95rem", marginBottom: "4px" }}>
+                  <p style={{ color: "var(--text-primary)", fontSize: "0.92rem", marginBottom: "3px" }}>
                     {phone}
                   </p>
-                  <p style={{ color: "var(--text-secondary)", fontSize: "0.88rem" }}>
-                    <Mail size={13} style={{ display: "inline", marginRight: "4px", verticalAlign: "middle" }} />
+                  <p style={{ color: "var(--text-secondary)", fontSize: "0.85rem" }}>
+                    <Mail size={12} style={{ display: "inline", marginRight: "4px", verticalAlign: "middle" }} />
                     {email}
                   </p>
                 </div>
@@ -214,10 +214,10 @@ export default async function ContactPage() {
                 href={whatsappChatUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="btn btn-whatsapp btn-lg"
+                className="btn btn-whatsapp btn-lg btn-pill"
                 style={{ width: "100%", textAlign: "center" }}
               >
-                <MessageSquare size={18} /> CHAT ON WHATSAPP
+                <MessageSquare size={17} /> CHAT ON WHATSAPP
               </a>
             </div>
 
@@ -226,9 +226,9 @@ export default async function ContactPage() {
               <h3
                 style={{
                   fontFamily: "var(--font-display)",
-                  fontSize: "1.7rem",
+                  fontSize: "1.5rem",
                   color: "#fff",
-                  marginBottom: "12px",
+                  marginBottom: "10px",
                 }}
               >
                 FIRST TIME VISITING?
@@ -236,28 +236,24 @@ export default async function ContactPage() {
               <p
                 style={{
                   color: "var(--text-secondary)",
-                  lineHeight: "1.65",
-                  fontSize: "0.95rem",
-                  marginBottom: "24px",
+                  lineHeight: "1.6",
+                  fontSize: "0.92rem",
+                  marginBottom: "20px",
                 }}
               >
                 We encourage prospective lifters to drop in during training hours, inspect our equipment, meet
                 our coaches, and see our community in action.
               </p>
 
-              <div
-                style={{
-                  marginBottom: "28px",
-                }}
-              >
+              <div style={{ marginBottom: "24px" }}>
                 <div
                   style={{
-                    fontSize: "0.75rem",
+                    fontSize: "0.72rem",
                     fontWeight: 700,
                     textTransform: "uppercase",
                     letterSpacing: "1px",
                     color: "var(--text-muted)",
-                    marginBottom: "12px",
+                    marginBottom: "10px",
                   }}
                 >
                   VISITOR GUIDELINES
@@ -267,7 +263,7 @@ export default async function ContactPage() {
                     listStyle: "none",
                     display: "flex",
                     flexDirection: "column",
-                    gap: "10px",
+                    gap: "8px",
                   }}
                 >
                   {[
@@ -280,9 +276,9 @@ export default async function ContactPage() {
                       key={i}
                       style={{
                         display: "flex",
-                        gap: "10px",
+                        gap: "8px",
                         color: "var(--text-secondary)",
-                        fontSize: "0.9rem",
+                        fontSize: "0.88rem",
                         alignItems: "flex-start",
                       }}
                     >
@@ -291,7 +287,7 @@ export default async function ContactPage() {
                           color: "var(--accent-red)",
                           fontFamily: "var(--font-display)",
                           fontWeight: 800,
-                          fontSize: "1rem",
+                          fontSize: "0.95rem",
                           lineHeight: 1,
                           marginTop: "2px",
                           flexShrink: 0,
@@ -307,7 +303,7 @@ export default async function ContactPage() {
 
               <div
                 style={{
-                  height: "200px",
+                  height: "190px",
                   borderRadius: "var(--radius-sm)",
                   background:
                     "url('https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=1000&auto=format&fit=crop&q=80') center/cover no-repeat",

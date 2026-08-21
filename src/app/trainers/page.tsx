@@ -40,23 +40,23 @@ export default async function TrainersPage() {
       {/* Trainer Cards */}
       <section className="section">
         <div className="container">
-          <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
             {trainers.map((trainer) => (
               <div
                 key={trainer.id}
                 style={{
                   display: "flex",
-                  gap: "28px",
+                  gap: "24px",
                   alignItems: "center",
                   flexWrap: "wrap",
-                  padding: "0 0 28px",
+                  padding: "0 0 24px",
                   borderBottom: "1px solid var(--border)",
                 }}
               >
                 <div
                   style={{
-                    width: "160px",
-                    height: "200px",
+                    width: "150px",
+                    height: "190px",
                     borderRadius: "var(--radius-sm)",
                     background: `url(${
                       trainer.photoUrl ||
@@ -70,9 +70,9 @@ export default async function TrainersPage() {
                   <h3
                     style={{
                       fontFamily: "var(--font-display)",
-                      fontSize: "1.7rem",
+                      fontSize: "1.5rem",
                       color: "#fff",
-                      marginBottom: "4px",
+                      marginBottom: "3px",
                     }}
                   >
                     {trainer.name}
@@ -80,11 +80,11 @@ export default async function TrainersPage() {
                   <div
                     style={{
                       color: "var(--accent-red)",
-                      fontSize: "0.82rem",
+                      fontSize: "0.8rem",
                       fontWeight: 700,
                       textTransform: "uppercase",
                       letterSpacing: "0.5px",
-                      marginBottom: "10px",
+                      marginBottom: "8px",
                     }}
                   >
                     {trainer.specialization}
@@ -96,11 +96,11 @@ export default async function TrainersPage() {
                       alignItems: "center",
                       gap: "6px",
                       color: "var(--text-secondary)",
-                      fontSize: "0.85rem",
-                      marginBottom: "12px",
+                      fontSize: "0.84rem",
+                      marginBottom: "10px",
                     }}
                   >
-                    <Award size={15} style={{ color: "var(--accent-orange)" }} />
+                    <Award size={14} style={{ color: "var(--accent-orange)" }} />
                     <span>{trainer.experience}</span>
                   </div>
 
@@ -108,17 +108,17 @@ export default async function TrainersPage() {
                     <p
                       style={{
                         color: "var(--text-secondary)",
-                        fontSize: "0.9rem",
-                        lineHeight: "1.55",
-                        marginBottom: "18px",
-                        maxWidth: "560px",
+                        fontSize: "0.88rem",
+                        lineHeight: "1.5",
+                        marginBottom: "16px",
+                        maxWidth: "540px",
                       }}
                     >
                       {trainer.bio}
                     </p>
                   )}
 
-                  <Link href="/join" className="btn btn-secondary btn-sm">
+                  <Link href="/join" className="btn btn-secondary btn-sm btn-pill">
                     Book Personal Consultation →
                   </Link>
                 </div>
@@ -127,23 +127,23 @@ export default async function TrainersPage() {
           </div>
 
           {/* CTA */}
-          <div style={{ marginTop: "64px", textAlign: "center", maxWidth: "580px", margin: "64px auto 0" }}>
-            <Flame size={32} style={{ color: "var(--accent-red)", margin: "0 auto 16px" }} />
+          <div style={{ marginTop: "56px", textAlign: "center", maxWidth: "560px", margin: "56px auto 0" }}>
+            <Flame size={28} style={{ color: "var(--accent-red)", margin: "0 auto 12px" }} />
             <h2
               style={{
                 fontFamily: "var(--font-display)",
-                fontSize: "clamp(1.6rem, 3vw, 2.2rem)",
+                fontSize: "clamp(1.5rem, 2.8vw, 2rem)",
                 color: "#fff",
-                marginBottom: "12px",
+                marginBottom: "10px",
               }}
             >
               LOOKING FOR 1-ON-1 PERSONAL TRAINING?
             </h2>
-            <p style={{ color: "var(--text-secondary)", marginBottom: "24px", fontSize: "0.95rem", lineHeight: "1.65" }}>
+            <p style={{ color: "var(--text-secondary)", marginBottom: "20px", fontSize: "0.92rem", lineHeight: "1.6" }}>
               Our coaches work directly with athletes of all skill levels on tailored programming, nutritional
               guidance, and lifting mechanics.
             </p>
-            <Link href="/contact" className="btn btn-primary">
+            <Link href="/contact" className="btn btn-primary btn-pill">
               INQUIRE ABOUT PERSONAL COACHING
             </Link>
           </div>

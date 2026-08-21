@@ -1,9 +1,14 @@
+// TODO: Replace with Firebase Authentication
+// TEMPORARY DEVELOPMENT AUTHENTICATION — DO NOT STORE IN DATABASE
+
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { verifyPassword, createSessionToken, COOKIE_NAME } from "@/lib/auth";
+import { createSessionToken, COOKIE_NAME } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+
+const HARDCODED_ADMIN_EMAIL = "admin@gym.com";
+const HARDCODED_ADMIN_PASSWORD = "admin123";
 
 export async function POST(request: Request) {
   try {
@@ -16,39 +21,34 @@ export async function POST(request: Request) {
       );
     }
 
-    const admin = await prisma.admin.findUnique({
-      where: { email: email.toLowerCase().trim() },
-    });
+    const normalizedEmail = email.toLowerCase().trim();
 
-    if (!admin) {
+    // Check temporary credentials
+    if (
+      normalizedEmail !== HARDCODED_ADMIN_EMAIL ||
+      password !== HARDCODED_ADMIN_PASSWORD
+    ) {
       return NextResponse.json(
         { error: "Invalid email or password" },
         { status: 401 }
       );
     }
 
-    const isValid = await verifyPassword(password, admin.passwordHash);
-    if (!isValid) {
-      return NextResponse.json(
-        { error: "Invalid email or password" },
-        { status: 401 }
-      );
-    }
-
+    // Issue JWT session token
     const token = await createSessionToken({
-      id: admin.id,
-      email: admin.email,
-      name: admin.name,
-      role: admin.role,
+      id: "admin-default",
+      email: HARDCODED_ADMIN_EMAIL,
+      name: "Gym Head Coach",
+      role: "ADMIN",
     });
 
     const response = NextResponse.json({
       success: true,
       user: {
-        id: admin.id,
-        email: admin.email,
-        name: admin.name,
-        role: admin.role,
+        id: "admin-default",
+        email: HARDCODED_ADMIN_EMAIL,
+        name: "Gym Head Coach",
+        role: "ADMIN",
       },
     });
 
