@@ -5,11 +5,20 @@ import Link from "next/link";
 import { Dumbbell, ShieldCheck, Flame, Trophy, Award, HeartHandshake } from "lucide-react";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export default async function AboutPage() {
-  const settings = await prisma.gymSettings.findUnique({
-    where: { id: "default" },
-  });
+  let settings = null;
+  try {
+    settings = await prisma.gymSettings.findUnique({
+      where: { id: "default" },
+    });
+  } catch (error) {
+    console.error(
+      "AboutPage database query error:",
+      error instanceof Error ? error.message : "Unable to load about data"
+    );
+  }
 
   const gymName = settings?.gymName || "TITAN FORGE GYM";
 

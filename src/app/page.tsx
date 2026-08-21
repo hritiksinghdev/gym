@@ -7,22 +7,34 @@ import { formatCurrency } from "@/lib/utils";
 
 // Force dynamic so admin updates to plans/settings immediately show
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export default async function HomePage() {
-  const settings = await prisma.gymSettings.findUnique({
-    where: { id: "default" },
-  });
+  let settings = null;
+  let plans: any[] = [];
+  let trainers: any[] = [];
 
-  const plans = await prisma.membershipPlan.findMany({
-    where: { isActive: true },
-    orderBy: { sortOrder: "asc" },
-  });
-
-  const trainers = await prisma.trainer.findMany({
-    where: { isActive: true },
-    orderBy: { sortOrder: "asc" },
-    take: 4,
-  });
+  try {
+    [settings, plans, trainers] = await Promise.all([
+      prisma.gymSettings.findUnique({
+        where: { id: "default" },
+      }),
+      prisma.membershipPlan.findMany({
+        where: { isActive: true },
+        orderBy: { sortOrder: "asc" },
+      }),
+      prisma.trainer.findMany({
+        where: { isActive: true },
+        orderBy: { sortOrder: "asc" },
+        take: 4,
+      }),
+    ]);
+  } catch (error) {
+    console.error(
+      "HomePage database query error:",
+      error instanceof Error ? error.message : "Unable to load homepage data"
+    );
+  }
 
   const heroHeadline = settings?.heroHeadline || "BUILD YOUR STRONGEST SELF.";
   const heroDescription =
@@ -58,128 +70,115 @@ export default async function HomePage() {
               <Flame size={16} /> RAW STRENGTH & DISCIPLINE
             </div>
 
-            <h1 className="hero-title">{heroHeadline}</h1>
-            <p className="hero-subtitle">{heroDescription}</p>
+            <h1 style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)", lineHeight: "1.05", marginBottom: "20px" }}>
+              {heroHeadline}
+            </h1>
 
-            <div className="hero-actions">
+            <p
+              style={{
+                fontSize: "1.2rem",
+                color: "var(--text-secondary)",
+                marginBottom: "36px",
+                lineHeight: "1.6",
+                maxWidth: "600px",
+              }}
+            >
+              {heroDescription}
+            </p>
+
+            <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
               <Link href="/join" className="btn btn-primary btn-lg">
-                JOIN NOW <ArrowRight size={20} />
+                JOIN THE FORGE NOW <ArrowRight size={20} />
               </Link>
               <Link href="/memberships" className="btn btn-secondary btn-lg">
-                VIEW MEMBERSHIPS
+                VIEW PLANS & PRICING
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* QUICK STATS BAR */}
-      <section style={{ backgroundColor: "#111", borderBottom: "1px solid var(--border)", padding: "36px 0" }}>
+      {/* FEATURES STRIP */}
+      <section style={{ backgroundColor: "#111", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)", padding: "40px 0" }}>
         <div className="container">
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-              gap: "24px",
-              textAlign: "center",
-            }}
-          >
-            <div>
-              <div style={{ fontFamily: "var(--font-display)", fontSize: "2.8rem", fontWeight: 900, color: "var(--accent-red)" }}>
-                500+
+          <div className="grid-3" style={{ gap: "32px" }}>
+            <div style={{ display: "flex", gap: "16px", alignItems: "flex-start" }}>
+              <div
+                style={{
+                  background: "rgba(229, 56, 59, 0.15)",
+                  color: "var(--accent-red)",
+                  padding: "12px",
+                  borderRadius: "var(--radius-sm)",
+                  flexShrink: 0,
+                }}
+              >
+                <Dumbbell size={28} />
               </div>
-              <div style={{ color: "var(--text-secondary)", fontSize: "0.85rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px" }}>
-                Active Lifters
+              <div>
+                <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "6px" }}>Heavy Steel & Calibrated Plates</h3>
+                <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", lineHeight: "1.5" }}>
+                  Competition powerlifting bars, calibrated steel plates, and commercial isolation machines.
+                </p>
               </div>
-            </div>
-            <div>
-              <div style={{ fontFamily: "var(--font-display)", fontSize: "2.8rem", fontWeight: 900, color: "var(--accent-red)" }}>
-                15+
-              </div>
-              <div style={{ color: "var(--text-secondary)", fontSize: "0.85rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px" }}>
-                Certified Coaches
-              </div>
-            </div>
-            <div>
-              <div style={{ fontFamily: "var(--font-display)", fontSize: "2.8rem", fontWeight: 900, color: "var(--accent-red)" }}>
-                10,000
-              </div>
-              <div style={{ color: "var(--text-secondary)", fontSize: "0.85rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px" }}>
-                Sq.Ft Heavy Iron Floor
-              </div>
-            </div>
-            <div>
-              <div style={{ fontFamily: "var(--font-display)", fontSize: "2.8rem", fontWeight: 900, color: "var(--accent-red)" }}>
-                100+
-              </div>
-              <div style={{ color: "var(--text-secondary)", fontSize: "0.85rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px" }}>
-                Custom Equipment Units
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* WHY CHOOSE US / FEATURES */}
-      <section style={{ padding: "80px 0" }}>
-        <div className="container">
-          <div style={{ textAlign: "center", maxWidth: "600px", margin: "0 auto 48px" }}>
-            <div style={{ color: "var(--accent-red)", fontWeight: 700, fontSize: "0.9rem", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "8px" }}>
-              WHY TRAIN WITH US
-            </div>
-            <h2 style={{ fontSize: "2.5rem", color: "#fff" }}>BUILT FOR THOSE WHO DEMAND RESULTS</h2>
-          </div>
-
-          <div className="grid-3">
-            <div className="card" style={{ padding: "32px 24px" }}>
-              <div style={{ width: "48px", height: "48px", background: "rgba(229, 56, 59, 0.15)", borderRadius: "var(--radius-sm)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-red)", marginBottom: "20px" }}>
-                <Dumbbell size={26} />
-              </div>
-              <h3 style={{ fontSize: "1.4rem", color: "#fff", marginBottom: "12px" }}>HEAVY DUTY EQUIPMENT</h3>
-              <p style={{ color: "var(--text-secondary)", lineHeight: "1.6", fontSize: "0.95rem" }}>
-                Olympic grade barbells, calibrated steel plates, multi-grip power racks, and specialized isolation machines.
-              </p>
             </div>
 
-            <div className="card" style={{ padding: "32px 24px" }}>
-              <div style={{ width: "48px", height: "48px", background: "rgba(229, 56, 59, 0.15)", borderRadius: "var(--radius-sm)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-red)", marginBottom: "20px" }}>
-                <Trophy size={26} />
+            <div style={{ display: "flex", gap: "16px", alignItems: "flex-start" }}>
+              <div
+                style={{
+                  background: "rgba(229, 56, 59, 0.15)",
+                  color: "var(--accent-red)",
+                  padding: "12px",
+                  borderRadius: "var(--radius-sm)",
+                  flexShrink: 0,
+                }}
+              >
+                <Trophy size={28} />
               </div>
-              <h3 style={{ fontSize: "1.4rem", color: "#fff", marginBottom: "12px" }}>NO-NONSENSE COACHING</h3>
-              <p style={{ color: "var(--text-secondary)", lineHeight: "1.6", fontSize: "0.95rem" }}>
-                Experienced lifters and competitive athletes who coach form, progressive overload, and high-impact nutrition.
-              </p>
+              <div>
+                <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "6px" }}>Certified Elite Coaches</h3>
+                <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", lineHeight: "1.5" }}>
+                  Competitive powerlifters, bodybuilders, and certified conditioning coaches for optimal progression.
+                </p>
+              </div>
             </div>
 
-            <div className="card" style={{ padding: "32px 24px" }}>
-              <div style={{ width: "48px", height: "48px", background: "rgba(229, 56, 59, 0.15)", borderRadius: "var(--radius-sm)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-red)", marginBottom: "20px" }}>
-                <Shield size={26} />
+            <div style={{ display: "flex", gap: "16px", alignItems: "flex-start" }}>
+              <div
+                style={{
+                  background: "rgba(229, 56, 59, 0.15)",
+                  color: "var(--accent-red)",
+                  padding: "12px",
+                  borderRadius: "var(--radius-sm)",
+                  flexShrink: 0,
+                }}
+              >
+                <Shield size={28} />
               </div>
-              <h3 style={{ fontSize: "1.4rem", color: "#fff", marginBottom: "12px" }}>SERIOUS TRAINING CULTURE</h3>
-              <p style={{ color: "var(--text-secondary)", lineHeight: "1.6", fontSize: "0.95rem" }}>
-                A respectful, focused environment where people come to put in actual work. Zero gimmicks, zero crowd bottlenecks.
-              </p>
+              <div>
+                <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "6px" }}>Zero Gimmicks Guarantee</h3>
+                <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", lineHeight: "1.5" }}>
+                  Transparent membership pricing with no maintenance surcharges or hidden cancellation traps.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* MEMBERSHIP PLANS PREVIEW */}
-      <section style={{ padding: "80px 0", backgroundColor: "#0e0e0e", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
+      <section style={{ padding: "80px 0" }}>
         <div className="container">
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "48px", flexWrap: "wrap", gap: "20px" }}>
-            <div>
-              <div style={{ color: "var(--accent-red)", fontWeight: 700, fontSize: "0.9rem", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "8px" }}>
-                MEMBERSHIP PLANS
-              </div>
-              <h2 style={{ fontSize: "2.5rem", color: "#fff" }}>CHOOSE YOUR COMMITMENT</h2>
+          <div style={{ textAlign: "center", maxWidth: "600px", margin: "0 auto 48px" }}>
+            <div style={{ color: "var(--accent-red)", fontWeight: 700, fontSize: "0.85rem", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "8px" }}>
+              MEMBERSHIP TIERS
             </div>
-            <Link href="/memberships" className="btn btn-secondary">
-              ALL PLANS & DETAILS →
-            </Link>
+            <h2 style={{ fontSize: "2.5rem", color: "#fff" }}>CHOOSE YOUR DISCIPLINE</h2>
+            <p style={{ color: "var(--text-secondary)", fontSize: "1rem", marginTop: "12px" }}>
+              Flexible membership packages designed for sustained results and peak physical development.
+            </p>
           </div>
 
-          <div className="grid-4">
+          <div className="grid-3" style={{ gap: "24px" }}>
             {plans.map((plan) => {
               let benefitsList: string[] = [];
               if (plan.benefits) {
@@ -199,9 +198,7 @@ export default async function HomePage() {
                     flexDirection: "column",
                     justifyContent: "space-between",
                     position: "relative",
-                    border: plan.name.toLowerCase().includes("yearly") || plan.name.toLowerCase().includes("quarterly")
-                      ? "1px solid var(--accent-red)"
-                      : "1px solid var(--border)",
+                    border: plan.name.toLowerCase().includes("yearly") ? "2px solid var(--accent-red)" : "1px solid var(--border)",
                   }}
                 >
                   {plan.name.toLowerCase().includes("yearly") && (
@@ -214,9 +211,10 @@ export default async function HomePage() {
                         color: "#fff",
                         fontSize: "0.75rem",
                         fontWeight: 800,
-                        padding: "3px 8px",
+                        padding: "3px 10px",
                         borderRadius: "2px",
                         textTransform: "uppercase",
+                        letterSpacing: "0.5px",
                       }}
                     >
                       BEST VALUE
@@ -224,28 +222,28 @@ export default async function HomePage() {
                   )}
 
                   <div>
-                    <h3 style={{ fontSize: "1.6rem", color: "#fff", marginBottom: "6px" }}>{plan.name}</h3>
-                    <div style={{ color: "var(--text-secondary)", fontSize: "0.85rem", marginBottom: "20px" }}>
-                      Valid for {plan.durationDays} Days
+                    <h3 style={{ fontSize: "1.8rem", color: "#fff", marginBottom: "4px" }}>{plan.name}</h3>
+                    <div style={{ color: "var(--text-secondary)", fontSize: "0.88rem", marginBottom: "20px" }}>
+                      {plan.durationDays} Days Unlimited Access
                     </div>
 
                     <div style={{ marginBottom: "24px" }}>
-                      <span style={{ fontFamily: "var(--font-display)", fontSize: "2.6rem", fontWeight: 900, color: "var(--text-white)" }}>
+                      <span style={{ fontFamily: "var(--font-display)", fontSize: "2.8rem", fontWeight: 900, color: "var(--text-white)" }}>
                         {formatCurrency(plan.price, currencySymbol)}
                       </span>
                     </div>
 
                     {plan.description && (
-                      <p style={{ color: "var(--text-secondary)", fontSize: "0.88rem", marginBottom: "20px", lineHeight: "1.5" }}>
+                      <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", marginBottom: "20px", lineHeight: "1.5" }}>
                         {plan.description}
                       </p>
                     )}
 
                     <div style={{ borderTop: "1px solid #282828", paddingTop: "16px", marginBottom: "24px" }}>
                       <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
-                        {benefitsList.slice(0, 4).map((b, i) => (
-                          <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "8px", fontSize: "0.85rem", color: "var(--text-secondary)" }}>
-                            <CheckCircle2 size={16} style={{ color: "var(--accent-red)", flexShrink: 0, marginTop: "2px" }} />
+                        {benefitsList.map((b, i) => (
+                          <li key={i} style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.88rem", color: "var(--text-primary)" }}>
+                            <CheckCircle2 size={16} style={{ color: "var(--accent-red)", flexShrink: 0 }} />
                             <span>{b}</span>
                           </li>
                         ))}
@@ -260,71 +258,76 @@ export default async function HomePage() {
               );
             })}
           </div>
+
+          <div style={{ textAlign: "center", marginTop: "40px" }}>
+            <Link href="/memberships" className="btn btn-secondary">
+              View All Membership Details & Terms →
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* TRAINERS PREVIEW */}
-      <section style={{ padding: "80px 0" }}>
-        <div className="container">
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "48px", flexWrap: "wrap", gap: "20px" }}>
-            <div>
-              <div style={{ color: "var(--accent-red)", fontWeight: 700, fontSize: "0.9rem", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "8px" }}>
+      {/* COACHES SECTION */}
+      {trainers.length > 0 && (
+        <section style={{ padding: "80px 0", backgroundColor: "#0c0c0c", borderTop: "1px solid var(--border)" }}>
+          <div className="container">
+            <div style={{ textAlign: "center", maxWidth: "600px", margin: "0 auto 48px" }}>
+              <div style={{ color: "var(--accent-red)", fontWeight: 700, fontSize: "0.85rem", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "8px" }}>
                 COACHING STAFF
               </div>
-              <h2 style={{ fontSize: "2.5rem", color: "#fff" }}>MEET THE FORGE TRAINERS</h2>
+              <h2 style={{ fontSize: "2.5rem", color: "#fff" }}>TRAIN WITH THE BEST</h2>
+              <p style={{ color: "var(--text-secondary)", fontSize: "1rem", marginTop: "12px" }}>
+                Our trainers have competed at national levels and possess decades of combined strength conditioning experience.
+              </p>
             </div>
-            <Link href="/trainers" className="btn btn-secondary">
-              VIEW ALL COACHES →
-            </Link>
-          </div>
 
-          <div className="grid-4">
-            {trainers.map((t) => (
-              <div key={t.id} className="card" style={{ padding: 0, overflow: "hidden" }}>
-                <div
-                  style={{
-                    height: "260px",
-                    background: `linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%), url(${t.photoUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80'}) center/cover no-repeat`,
-                  }}
-                />
-                <div style={{ padding: "20px" }}>
-                  <h3 style={{ fontSize: "1.3rem", color: "#fff", marginBottom: "4px" }}>{t.name}</h3>
-                  <div style={{ color: "var(--accent-red)", fontSize: "0.85rem", fontWeight: 700, textTransform: "uppercase", marginBottom: "8px" }}>
-                    {t.specialization}
+            <div className="grid-4" style={{ gap: "24px" }}>
+              {trainers.map((trainer) => (
+                <div key={trainer.id} className="card" style={{ padding: "16px" }}>
+                  <div
+                    style={{
+                      height: "260px",
+                      borderRadius: "var(--radius-sm)",
+                      background: `url(${trainer.photoUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80'}) center/cover no-repeat`,
+                      marginBottom: "16px",
+                      border: "1px solid var(--border)",
+                    }}
+                  />
+                  <h3 style={{ fontSize: "1.3rem", color: "#fff", marginBottom: "4px" }}>{trainer.name}</h3>
+                  <div style={{ color: "var(--accent-red)", fontSize: "0.85rem", fontWeight: 700, marginBottom: "8px" }}>
+                    {trainer.specialization}
                   </div>
-                  <div style={{ color: "var(--text-muted)", fontSize: "0.82rem" }}>
-                    {t.experience}
+                  <div style={{ color: "var(--text-secondary)", fontSize: "0.8rem", marginBottom: "12px" }}>
+                    Experience: {trainer.experience}
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+              ))}
+            </div>
 
-      {/* CALL TO ACTION BANNER */}
-      <section style={{ padding: "80px 0", backgroundColor: "var(--accent-red)", color: "#fff" }}>
-        <div className="container" style={{ textAlign: "center", maxWidth: "800px" }}>
-          <h2 style={{ fontSize: "3.2rem", fontWeight: 900, marginBottom: "16px", color: "#fff" }}>
+            <div style={{ textAlign: "center", marginTop: "40px" }}>
+              <Link href="/trainers" className="btn btn-secondary">
+                Meet the Full Coaching Team →
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* CTA BANNER */}
+      <section style={{ padding: "80px 0", backgroundColor: "#151515", borderTop: "1px solid var(--border)" }}>
+        <div className="container" style={{ textAlign: "center", maxWidth: "700px" }}>
+          <h2 style={{ fontSize: "3rem", color: "#fff", marginBottom: "16px" }}>
             STOP WAITING. START LIFTING.
           </h2>
-          <p style={{ fontSize: "1.2rem", marginBottom: "32px", opacity: 0.95 }}>
-            Sign up online in 60 seconds, receive your unique Member ID, and walk right in today.
+          <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem", marginBottom: "32px", lineHeight: "1.6" }}>
+            Step onto the training floor and join an uncompromising community dedicated to progressive overload and genuine fitness mastery.
           </p>
-          <div style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap" }}>
-            <Link
-              href="/join"
-              className="btn btn-lg"
-              style={{ background: "#000", color: "#fff", borderColor: "#000" }}
-            >
-              REGISTER ONLINE NOW
+          <div style={{ display: "flex", gap: "16px", justifyContent: "center" }}>
+            <Link href="/join" className="btn btn-primary btn-lg">
+              ENROLL ONLINE TODAY
             </Link>
-            <Link
-              href="/contact"
-              className="btn btn-lg"
-              style={{ background: "transparent", color: "#fff", borderColor: "#fff" }}
-            >
-              VISIT GYM LOCATION
+            <Link href="/contact" className="btn btn-secondary btn-lg">
+              TOUR THE FACILITY
             </Link>
           </div>
         </div>

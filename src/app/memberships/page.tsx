@@ -2,20 +2,32 @@ import PublicNavbar from "@/components/public/Navbar";
 import PublicFooter from "@/components/public/Footer";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import { CheckCircle2, ShieldCheck, Zap } from "lucide-react";
+import { CheckCircle2, ShieldCheck } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export default async function MembershipsPage() {
-  const settings = await prisma.gymSettings.findUnique({
-    where: { id: "default" },
-  });
+  let settings = null;
+  let plans: any[] = [];
 
-  const plans = await prisma.membershipPlan.findMany({
-    where: { isActive: true },
-    orderBy: { sortOrder: "asc" },
-  });
+  try {
+    [settings, plans] = await Promise.all([
+      prisma.gymSettings.findUnique({
+        where: { id: "default" },
+      }),
+      prisma.membershipPlan.findMany({
+        where: { isActive: true },
+        orderBy: { sortOrder: "asc" },
+      }),
+    ]);
+  } catch (error) {
+    console.error(
+      "MembershipsPage database query error:",
+      error instanceof Error ? error.message : "Unable to load membership plans"
+    );
+  }
 
   const currencySymbol = settings?.currencySymbol || "₹";
 

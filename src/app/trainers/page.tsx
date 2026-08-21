@@ -2,15 +2,24 @@ import PublicNavbar from "@/components/public/Navbar";
 import PublicFooter from "@/components/public/Footer";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import { Dumbbell, Award, Flame } from "lucide-react";
+import { Award, Flame } from "lucide-react";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export default async function TrainersPage() {
-  const trainers = await prisma.trainer.findMany({
-    where: { isActive: true },
-    orderBy: { sortOrder: "asc" },
-  });
+  let trainers: any[] = [];
+  try {
+    trainers = await prisma.trainer.findMany({
+      where: { isActive: true },
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch (error) {
+    console.error(
+      "TrainersPage database query error:",
+      error instanceof Error ? error.message : "Unable to load trainers"
+    );
+  }
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>

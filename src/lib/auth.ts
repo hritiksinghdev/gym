@@ -2,9 +2,19 @@ import { SignJWT, jwtVerify } from "jose";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 
-const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || "gym-cms-secure-secret-key-titan-forge-2026"
-);
+function getJwtSecret(): Uint8Array {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error(
+        "Missing JWT_SECRET environment variable in production. " +
+        "Please configure JWT_SECRET in your Vercel project settings."
+      );
+    }
+    return new TextEncoder().encode("gym-cms-local-dev-secret-key-titan-forge-2026");
+  }
+  return new TextEncoder().encode(secret);
+}
 
 export const COOKIE_NAME = "gym_admin_token";
 
@@ -28,12 +38,12 @@ export async function createSessionToken(user: SessionUser): Promise<string> {
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime("7d")
-    .sign(JWT_SECRET);
+    .sign(getJwtSecret());
 }
 
 export async function verifySessionToken(token: string): Promise<SessionUser | null> {
   try {
-    const { payload } = await jwtVerify(token, JWT_SECRET);
+    const { payload } = await jwtVerify(token, getJwtSecret());
     return {
       id: payload.id as string,
       email: payload.email as string,

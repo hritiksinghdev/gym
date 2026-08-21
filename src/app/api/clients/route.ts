@@ -4,6 +4,9 @@ import { getCurrentAdmin } from "@/lib/auth";
 import { generateNextMemberId } from "@/lib/member-id";
 import { getMembershipStatus } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 export async function GET(request: Request) {
   try {
     const admin = await getCurrentAdmin();

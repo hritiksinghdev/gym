@@ -1,11 +1,19 @@
 import Link from "next/link";
-import { Dumbbell, Phone, Mail, MapPin, Clock, Globe } from "lucide-react";
+import { Dumbbell, Phone, Mail, MapPin, Clock } from "lucide-react";
 import prisma from "@/lib/prisma";
 
 export default async function PublicFooter() {
-  const settings = await prisma.gymSettings.findUnique({
-    where: { id: "default" },
-  });
+  let settings = null;
+  try {
+    settings = await prisma.gymSettings.findUnique({
+      where: { id: "default" },
+    });
+  } catch (error) {
+    console.error(
+      "PublicFooter database query error:",
+      error instanceof Error ? error.message : "Unable to load settings"
+    );
+  }
 
   const gymName = settings?.gymName || "TITAN FORGE GYM";
   const address = settings?.address || "Plot 42, Ironworks Industrial Estate, Bangalore";

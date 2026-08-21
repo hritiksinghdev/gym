@@ -3,6 +3,9 @@ import { prisma } from "@/lib/prisma";
 import { generateNextMemberId } from "@/lib/member-id";
 import { formatDate } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();

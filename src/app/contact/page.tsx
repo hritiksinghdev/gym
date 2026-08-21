@@ -5,11 +5,20 @@ import { Phone, Mail, MapPin, Clock, MessageSquare, ExternalLink } from "lucide-
 import { generateWhatsAppUrl } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export default async function ContactPage() {
-  const settings = await prisma.gymSettings.findUnique({
-    where: { id: "default" },
-  });
+  let settings = null;
+  try {
+    settings = await prisma.gymSettings.findUnique({
+      where: { id: "default" },
+    });
+  } catch (error) {
+    console.error(
+      "ContactPage database query error:",
+      error instanceof Error ? error.message : "Unable to load contact settings"
+    );
+  }
 
   const gymName = settings?.gymName || "TITAN FORGE GYM";
   const address = settings?.address || "Plot 42, Ironworks Industrial Estate, 2nd Cross, Bangalore";

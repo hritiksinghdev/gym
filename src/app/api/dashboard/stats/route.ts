@@ -3,6 +3,9 @@ import { prisma } from "@/lib/prisma";
 import { getCurrentAdmin } from "@/lib/auth";
 import { getMembershipStatus, formatDate, getWhatsAppReminderMessage } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 export async function GET() {
   try {
     const admin = await getCurrentAdmin();
