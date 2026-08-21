@@ -1,169 +1,146 @@
+// TEMPORARY DEMO AUTH — REPLACE WITH FIREBASE
+// Credentials are checked client-side only for demo purposes.
+// The signInDemo server action issues a real JWT for the middleware.
+// When Firebase is added: replace handleLogin with Firebase signInWithEmailAndPassword(),
+// then set the JWT cookie via a Firebase-authenticated server action.
+
 "use client";
 
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Dumbbell, Lock, Mail, AlertCircle, ArrowRight, Shield } from "lucide-react";
 import Link from "next/link";
+import { signInDemo } from "./actions";
+
+// TEMPORARY DEMO AUTH — REPLACE WITH FIREBASE
+const DEMO_EMAIL = "admin@gym.com";
+const DEMO_PASSWORD = "admin123";
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const from = searchParams.get("from") || "/admin";
 
-  const [email, setEmail] = useState("admin@gym.com");
-  const [password, setPassword] = useState("admin123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // TEMPORARY DEMO AUTH — REPLACE WITH FIREBASE
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Login failed. Please check your credentials.");
+      // Local credential check — no API call, no database
+      if (email.trim().toLowerCase() !== DEMO_EMAIL || password !== DEMO_PASSWORD) {
+        setError("Invalid email or password.");
         setLoading(false);
         return;
       }
 
-      // Successful login
+      // Issue JWT cookie via server action so middleware accepts the session
+      await signInDemo();
       router.push(from);
       router.refresh();
     } catch (err) {
-      console.error("Login request error:", err);
-      setError("An error occurred. Please try again.");
+      console.error("Login error:", err);
+      setError("Something went wrong. Please try again.");
       setLoading(false);
     }
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#0a0a0a",
-        padding: "24px",
-      }}
-    >
-      <div style={{ width: "100%", maxWidth: "440px" }}>
-        {/* Branding header */}
-        <div style={{ textAlign: "center", marginBottom: "32px" }}>
-          <Link href="/" className="logo-text" style={{ justifyContent: "center", marginBottom: "12px", display: "inline-flex" }}>
-            <Dumbbell size={32} style={{ color: "var(--accent-red)" }} />
-            <span>TITAN</span> FORGE
+    <div className="login-page">
+      <div className="login-container">
+        {/* Brand */}
+        <div className="login-brand">
+          <Link href="/" className="login-logo">
+            <Dumbbell size={30} style={{ color: "var(--accent-red)" }} />
+            <span>TITAN<span style={{ color: "var(--accent-red)" }}>.</span>FORGE</span>
           </Link>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", color: "var(--text-secondary)", fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px", fontWeight: 700 }}>
-            <Shield size={16} style={{ color: "var(--accent-red)" }} /> ADMIN & STAFF PORTAL
+          <div className="login-portal-label">
+            <Shield size={14} style={{ color: "var(--accent-red)" }} />
+            ADMIN &amp; STAFF PORTAL
           </div>
         </div>
 
-        <div className="card" style={{ padding: "36px 28px", border: "1px solid var(--border)", backgroundColor: "#141414" }}>
-          <h2 style={{ fontSize: "1.8rem", color: "#fff", marginBottom: "8px" }}>STAFF LOGIN</h2>
-          <p style={{ color: "var(--text-secondary)", fontSize: "0.88rem", marginBottom: "24px" }}>
-            Sign in with authorized administrator credentials to manage gym operations.
+        {/* Card */}
+        <div className="login-card">
+          <h1 className="login-heading">STAFF LOGIN</h1>
+          <p className="login-subtext">
+            Sign in with authorized credentials to manage gym operations.
           </p>
 
           {error && (
-            <div
-              style={{
-                background: "var(--status-danger-bg)",
-                border: "1px solid var(--status-danger-border)",
-                color: "var(--status-danger-text)",
-                padding: "10px 14px",
-                borderRadius: "var(--radius-sm)",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                fontSize: "0.88rem",
-                marginBottom: "20px",
-              }}
-            >
+            <div className="login-error">
               <AlertCircle size={16} />
               <span>{error}</span>
             </div>
           )}
 
-          <form onSubmit={handleLogin}>
-            <div className="form-group">
+          <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+            <div className="login-field">
               <label className="form-label">Email Address</label>
-              <div style={{ position: "relative" }}>
+              <div className="input-with-icon">
+                <Mail size={15} className="input-icon" />
                 <input
+                  id="login-email"
                   type="email"
                   required
-                  className="form-input"
-                  style={{ paddingLeft: "38px" }}
+                  className="form-input login-input"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@gym.com"
-                />
-                <Mail
-                  size={16}
-                  style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", color: "#777" }}
+                  autoComplete="email"
                 />
               </div>
             </div>
 
-            <div className="form-group" style={{ marginBottom: "24px" }}>
+            <div className="login-field">
               <label className="form-label">Password</label>
-              <div style={{ position: "relative" }}>
+              <div className="input-with-icon">
+                <Lock size={15} className="input-icon" />
                 <input
+                  id="login-password"
                   type="password"
                   required
-                  className="form-input"
-                  style={{ paddingLeft: "38px" }}
+                  className="form-input login-input"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                />
-                <Lock
-                  size={16}
-                  style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", color: "#777" }}
+                  autoComplete="current-password"
                 />
               </div>
             </div>
 
             <button
               type="submit"
+              id="login-submit"
               disabled={loading}
               className="btn btn-primary"
-              style={{ width: "100%", padding: "12px" }}
+              style={{ width: "100%", padding: "14px", marginTop: "4px" }}
             >
-              {loading ? "AUTHENTICATING..." : "SIGN IN TO DASHBOARD"} <ArrowRight size={18} />
+              {loading ? "SIGNING IN..." : "SIGN IN"} {!loading && <ArrowRight size={17} />}
             </button>
           </form>
 
-          {/* Dev credentials note */}
-          <div
-            style={{
-              marginTop: "24px",
-              padding: "12px",
-              background: "#0d0d0d",
-              border: "1px dashed #333",
-              borderRadius: "var(--radius-sm)",
-              fontSize: "0.8rem",
-              color: "var(--text-secondary)",
-            }}
-          >
-            <strong style={{ color: "#fff" }}>Demo Admin Credentials:</strong>
-            <br />
-            Email: <span style={{ color: "var(--accent-red)" }}>admin@gym.com</span>
-            <br />
-            Password: <span style={{ color: "var(--accent-red)" }}>admin123</span>
+          {/* Demo credentials — visible because this is a demo build */}
+          <div className="login-demo-creds">
+            <span className="login-demo-label">DEMO CREDENTIALS</span>
+            <div className="login-demo-row">
+              <span>Email</span>
+              <code style={{ color: "var(--accent-red)" }}>admin@gym.com</code>
+            </div>
+            <div className="login-demo-row">
+              <span>Password</span>
+              <code style={{ color: "var(--accent-red)" }}>admin123</code>
+            </div>
           </div>
         </div>
 
-        <div style={{ textAlign: "center", marginTop: "24px" }}>
+        <div style={{ textAlign: "center", marginTop: "28px" }}>
           <Link href="/" style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>
             ← Back to Public Website
           </Link>
@@ -175,7 +152,7 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div style={{ minHeight: "100vh", background: "#0a0a0a" }} />}>
+    <Suspense fallback={<div style={{ minHeight: "100vh", background: "#080808" }} />}>
       <LoginForm />
     </Suspense>
   );

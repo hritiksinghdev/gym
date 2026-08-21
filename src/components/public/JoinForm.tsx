@@ -2,7 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { CheckCircle2, Dumbbell, AlertCircle, ArrowRight, MessageSquare, UserCheck } from "lucide-react";
+import {
+  CheckCircle2,
+  AlertCircle,
+  ArrowRight,
+  MessageSquare,
+} from "lucide-react";
 import { formatCurrency, generateWhatsAppUrl } from "@/lib/utils";
 import Link from "next/link";
 
@@ -81,13 +86,11 @@ export default function JoinForm() {
       setSubmitting(false);
       return;
     }
-
     if (!formData.phone.trim()) {
       setErrorMessage("Please enter your phone number.");
       setSubmitting(false);
       return;
     }
-
     if (!formData.planId) {
       setErrorMessage("Please select a membership plan.");
       setSubmitting(false);
@@ -120,27 +123,28 @@ export default function JoinForm() {
 
   const selectedPlan = plans.find((p) => p.id === formData.planId);
 
+  // ─── Success State ────────────────────────────────────────────────────────
   if (successData) {
     const whatsappMsg = `Hi Titan Forge Gym! I just registered online.\nName: ${successData.clientName}\nMember ID: ${successData.memberId}\nPlan: ${successData.planName}`;
     const deskWhatsappUrl = generateWhatsAppUrl("919876543210", whatsappMsg);
 
     return (
-      <div className="container" style={{ padding: "80px 24px", maxWidth: "680px" }}>
+      <div className="container" style={{ padding: "80px var(--container-pad)", maxWidth: "640px" }}>
         <div
-          className="card"
           style={{
             textAlign: "center",
-            padding: "48px 32px",
-            border: "2px solid var(--accent-red)",
-            backgroundColor: "#161616",
+            padding: "52px 40px",
+            border: "1px solid var(--accent-red)",
+            borderRadius: "var(--radius-md)",
+            backgroundColor: "var(--bg-card)",
           }}
         >
           <div
             style={{
-              width: "72px",
-              height: "72px",
-              background: "rgba(46, 204, 113, 0.15)",
-              border: "2px solid #2ecc71",
+              width: "68px",
+              height: "68px",
+              background: "rgba(46, 204, 113, 0.12)",
+              border: "1px solid #2ecc71",
               borderRadius: "50%",
               display: "flex",
               alignItems: "center",
@@ -149,59 +153,83 @@ export default function JoinForm() {
               color: "#2ecc71",
             }}
           >
-            <CheckCircle2 size={40} />
+            <CheckCircle2 size={36} />
           </div>
 
-          <div style={{ color: "var(--accent-red)", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", fontSize: "0.9rem", marginBottom: "8px" }}>
-            MEMBERSHIP ACTIVATED
-          </div>
-          <h1 style={{ fontSize: "2.4rem", color: "#fff", marginBottom: "16px" }}>
+          <span className="section-label">Membership Activated</span>
+          <h1
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "2.2rem",
+              color: "#fff",
+              marginBottom: "14px",
+            }}
+          >
             WELCOME TO THE FORGE
           </h1>
-          <p style={{ color: "var(--text-secondary)", fontSize: "1rem", lineHeight: "1.6", marginBottom: "32px" }}>
-            Your registration is registered in our management database. Present your Member ID at the front desk when you arrive for your first workout.
-          </p>
-
-          <div
+          <p
             style={{
-              background: "#0c0c0c",
-              border: "1px solid var(--border)",
-              borderRadius: "var(--radius-md)",
-              padding: "24px",
-              textAlign: "left",
+              color: "var(--text-secondary)",
+              fontSize: "0.95rem",
+              lineHeight: "1.65",
               marginBottom: "32px",
             }}
           >
-            <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #222", paddingBottom: "12px", marginBottom: "12px" }}>
-              <span style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>MEMBER ID</span>
-              <span style={{ color: "var(--accent-red)", fontWeight: 900, fontFamily: "var(--font-display)", fontSize: "1.3rem" }}>
-                {successData.memberId}
-              </span>
-            </div>
+            Your registration is confirmed. Present your Member ID at the front desk when you arrive.
+          </p>
 
-            <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #222", paddingBottom: "12px", marginBottom: "12px" }}>
-              <span style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>MEMBER NAME</span>
-              <span style={{ color: "#fff", fontWeight: 600, fontSize: "0.95rem" }}>
-                {successData.clientName}
-              </span>
-            </div>
-
-            <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #222", paddingBottom: "12px", marginBottom: "12px" }}>
-              <span style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>SELECTED PLAN</span>
-              <span style={{ color: "#fff", fontWeight: 600, fontSize: "0.95rem" }}>
-                {successData.planName} ({formatCurrency(successData.price)})
-              </span>
-            </div>
-
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>VALIDITY PERIOD</span>
-              <span style={{ color: "#2ecc71", fontWeight: 600, fontSize: "0.9rem" }}>
-                {successData.startDate} → {successData.endDate}
-              </span>
-            </div>
+          {/* Receipt */}
+          <div
+            style={{
+              background: "var(--bg-surface)",
+              borderRadius: "var(--radius-sm)",
+              padding: "20px",
+              textAlign: "left",
+              marginBottom: "28px",
+            }}
+          >
+            {[
+              { label: "MEMBER ID", value: successData.memberId, accent: true },
+              { label: "NAME", value: successData.clientName },
+              {
+                label: "PLAN",
+                value: `${successData.planName} (${formatCurrency(successData.price)})`,
+              },
+              {
+                label: "VALIDITY",
+                value: `${successData.startDate} → ${successData.endDate}`,
+                green: true,
+              },
+            ].map((row, i) => (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  paddingBottom: i < 3 ? "12px" : 0,
+                  marginBottom: i < 3 ? "12px" : 0,
+                  borderBottom: i < 3 ? "1px solid var(--border)" : "none",
+                }}
+              >
+                <span style={{ color: "var(--text-muted)", fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.8px" }}>
+                  {row.label}
+                </span>
+                <span
+                  style={{
+                    fontFamily: row.accent ? "var(--font-display)" : "inherit",
+                    fontSize: row.accent ? "1.2rem" : "0.9rem",
+                    fontWeight: row.accent ? 900 : 600,
+                    color: row.accent ? "var(--accent-red)" : row.green ? "#2ecc71" : "#fff",
+                  }}
+                >
+                  {row.value}
+                </span>
+              </div>
+            ))}
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             <a
               href={deskWhatsappUrl}
               target="_blank"
@@ -209,7 +237,7 @@ export default function JoinForm() {
               className="btn btn-whatsapp"
               style={{ width: "100%" }}
             >
-              <MessageSquare size={18} /> CONFIRM WITH FRONT DESK ON WHATSAPP
+              <MessageSquare size={17} /> CONFIRM WITH FRONT DESK ON WHATSAPP
             </a>
             <Link href="/" className="btn btn-secondary" style={{ width: "100%" }}>
               RETURN TO HOMEPAGE
@@ -220,230 +248,246 @@ export default function JoinForm() {
     );
   }
 
+  // ─── Form ─────────────────────────────────────────────────────────────────
   return (
-    <div className="container" style={{ padding: "60px 24px", maxWidth: "800px" }}>
-      <div style={{ textAlign: "center", marginBottom: "40px" }}>
-        <div style={{ color: "var(--accent-red)", fontWeight: 700, fontSize: "0.85rem", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "8px" }}>
-          NEW LIFTER ENROLLMENT
-        </div>
-        <h1 style={{ fontSize: "3rem", color: "#fff", marginBottom: "12px" }}>
-          JOIN TITAN FORGE GYM
+    <div className="container" style={{ padding: "72px var(--container-pad) 80px", maxWidth: "780px" }}>
+      {/* Page heading */}
+      <div style={{ marginBottom: "52px" }}>
+        <span className="section-label">New Member Enrollment</span>
+        <h1
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(2rem, 4vw, 3rem)",
+            color: "#fff",
+            marginBottom: "10px",
+          }}
+        >
+          JOIN TITAN FORGE
         </h1>
-        <p style={{ color: "var(--text-secondary)", fontSize: "1rem" }}>
-          Fill in your details below to generate your official Member ID and register your membership plan.
+        <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: "1.6", maxWidth: "540px" }}>
+          Fill in your details below to generate your official Member ID and register your membership.
         </p>
       </div>
 
-      <div className="card" style={{ padding: "36px 32px" }}>
-        {errorMessage && (
-          <div
-            style={{
-              background: "var(--status-danger-bg)",
-              border: "1px solid var(--status-danger-border)",
-              color: "var(--status-danger-text)",
-              padding: "12px 16px",
-              borderRadius: "var(--radius-sm)",
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              marginBottom: "24px",
-              fontSize: "0.9rem",
-            }}
-          >
-            <AlertCircle size={18} />
-            <span>{errorMessage}</span>
-          </div>
-        )}
+      {/* Error banner */}
+      {errorMessage && (
+        <div className="login-error" style={{ marginBottom: "28px" }}>
+          <AlertCircle size={17} />
+          <span>{errorMessage}</span>
+        </div>
+      )}
 
-        <form onSubmit={handleSubmit}>
-          {/* Section 1: Personal Details */}
-          <div style={{ borderBottom: "1px solid var(--border)", paddingBottom: "24px", marginBottom: "24px" }}>
-            <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
-              <UserCheck size={18} style={{ color: "var(--accent-red)" }} /> 1. PERSONAL INFORMATION
-            </h3>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">Full Name *</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Rohan Varma"
-                  className="form-input"
-                  value={formData.fullName}
-                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Phone Number *</label>
-                <input
-                  type="tel"
-                  required
-                  placeholder="e.g. 9876543210"
-                  className="form-input"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                />
-              </div>
+      <form onSubmit={handleSubmit}>
+        {/* ── 01 Personal Information ── */}
+        <div className="join-section">
+          <div className="join-section-header">
+            <div className="join-section-number">01</div>
+            <div className="join-section-title-wrap">
+              <div className="join-section-title">Personal Information</div>
+              <div className="join-section-desc">Your contact and identification details</div>
             </div>
+          </div>
 
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">Email Address</label>
-                <input
-                  type="email"
-                  placeholder="e.g. rohan@gmail.com"
-                  className="form-input"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Date of Birth</label>
-                <input
-                  type="date"
-                  className="form-input"
-                  value={formData.dateOfBirth}
-                  onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Gender</label>
-                <select
-                  className="form-select"
-                  value={formData.gender}
-                  onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                >
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other / Prefer not to say</option>
-                </select>
-              </div>
+          <div className="form-row" style={{ gap: "20px" }}>
+            <div className="form-group">
+              <label className="form-label">Full Name *</label>
+              <input
+                type="text"
+                required
+                placeholder="e.g. Rohan Varma"
+                className="form-input"
+                value={formData.fullName}
+                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+              />
             </div>
 
             <div className="form-group">
-              <label className="form-label">Residential Address</label>
+              <label className="form-label">Phone Number *</label>
               <input
-                type="text"
-                placeholder="e.g. 100ft Road, Indiranagar, Bangalore"
+                type="tel"
+                required
+                placeholder="e.g. 9876543210"
                 className="form-input"
-                value={formData.address}
-                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               />
             </div>
           </div>
 
-          {/* Section 2: Emergency Contact */}
-          <div style={{ borderBottom: "1px solid var(--border)", paddingBottom: "24px", marginBottom: "24px" }}>
-            <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "16px" }}>
-              2. EMERGENCY CONTACT
-            </h3>
+          <div className="form-row" style={{ gap: "20px", marginTop: "16px" }}>
+            <div className="form-group">
+              <label className="form-label">Email Address</label>
+              <input
+                type="email"
+                placeholder="e.g. rohan@gmail.com"
+                className="form-input"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              />
+            </div>
 
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">Emergency Contact Name</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Family member or guardian"
-                  className="form-input"
-                  value={formData.emergencyContactName}
-                  onChange={(e) => setFormData({ ...formData, emergencyContactName: e.target.value })}
-                />
-              </div>
+            <div className="form-group">
+              <label className="form-label">Date of Birth</label>
+              <input
+                type="date"
+                className="form-input"
+                value={formData.dateOfBirth}
+                onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
+              />
+            </div>
 
-              <div className="form-group">
-                <label className="form-label">Emergency Contact Phone</label>
-                <input
-                  type="tel"
-                  placeholder="e.g. 9876509999"
-                  className="form-input"
-                  value={formData.emergencyContactPhone}
-                  onChange={(e) => setFormData({ ...formData, emergencyContactPhone: e.target.value })}
-                />
-              </div>
+            <div className="form-group">
+              <label className="form-label">Gender</label>
+              <select
+                className="form-select"
+                value={formData.gender}
+                onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+              >
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other / Prefer not to say</option>
+              </select>
             </div>
           </div>
 
-          {/* Section 3: Membership Plan Selection */}
-          <div style={{ marginBottom: "32px" }}>
-            <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
-              <Dumbbell size={18} style={{ color: "var(--accent-red)" }} /> 3. MEMBERSHIP SELECTION
-            </h3>
+          <div className="form-group" style={{ marginTop: "16px" }}>
+            <label className="form-label">Residential Address</label>
+            <input
+              type="text"
+              placeholder="e.g. 100ft Road, Indiranagar, Bangalore"
+              className="form-input"
+              value={formData.address}
+              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+            />
+          </div>
+        </div>
 
-            <div className="form-row">
-              <div className="form-group" style={{ flex: 2 }}>
-                <label className="form-label">Select Membership Plan *</label>
-                {loadingPlans ? (
-                  <div style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>Loading plans...</div>
-                ) : (
-                  <select
-                    required
-                    className="form-select"
-                    value={formData.planId}
-                    onChange={(e) => setFormData({ ...formData, planId: e.target.value })}
-                  >
-                    {plans.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.name} ({p.durationDays} Days) — {formatCurrency(p.price)}
-                      </option>
-                    ))}
-                  </select>
-                )}
-              </div>
+        {/* ── 02 Emergency Contact ── */}
+        <div className="join-section">
+          <div className="join-section-header">
+            <div className="join-section-number">02</div>
+            <div className="join-section-title-wrap">
+              <div className="join-section-title">Emergency Contact</div>
+              <div className="join-section-desc">Someone we can reach if needed</div>
+            </div>
+          </div>
 
-              <div className="form-group">
-                <label className="form-label">Start Date</label>
-                <input
-                  type="date"
-                  required
-                  className="form-input"
-                  value={formData.startDate}
-                  onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                />
-              </div>
+          <div className="form-row" style={{ gap: "20px" }}>
+            <div className="form-group">
+              <label className="form-label">Contact Name</label>
+              <input
+                type="text"
+                placeholder="e.g. Family member or guardian"
+                className="form-input"
+                value={formData.emergencyContactName}
+                onChange={(e) => setFormData({ ...formData, emergencyContactName: e.target.value })}
+              />
             </div>
 
-            {selectedPlan && (
+            <div className="form-group">
+              <label className="form-label">Contact Phone</label>
+              <input
+                type="tel"
+                placeholder="e.g. 9876509999"
+                className="form-input"
+                value={formData.emergencyContactPhone}
+                onChange={(e) => setFormData({ ...formData, emergencyContactPhone: e.target.value })}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* ── 03 Membership ── */}
+        <div className="join-section" style={{ paddingBottom: "0", marginBottom: "36px" }}>
+          <div className="join-section-header">
+            <div className="join-section-number">03</div>
+            <div className="join-section-title-wrap">
+              <div className="join-section-title">Membership Plan</div>
+              <div className="join-section-desc">Select your plan and start date</div>
+            </div>
+          </div>
+
+          <div className="form-row" style={{ gap: "20px" }}>
+            <div className="form-group" style={{ flex: 2 }}>
+              <label className="form-label">Select Plan *</label>
+              {loadingPlans ? (
+                <div style={{ color: "var(--text-secondary)", fontSize: "0.9rem", padding: "12px 0" }}>
+                  Loading plans...
+                </div>
+              ) : (
+                <select
+                  required
+                  className="form-select"
+                  value={formData.planId}
+                  onChange={(e) => setFormData({ ...formData, planId: e.target.value })}
+                >
+                  {plans.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name} ({p.durationDays} Days) — {formatCurrency(p.price)}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Start Date</label>
+              <input
+                type="date"
+                required
+                className="form-input"
+                value={formData.startDate}
+                onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+              />
+            </div>
+          </div>
+
+          {selectedPlan && (
+            <div
+              style={{
+                marginTop: "16px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "14px 18px",
+                background: "var(--bg-surface)",
+                borderRadius: "var(--radius-sm)",
+                border: "1px solid var(--border)",
+              }}
+            >
+              <div>
+                <div style={{ color: "#fff", fontWeight: 600, fontSize: "0.95rem" }}>
+                  {selectedPlan.name}
+                </div>
+                <div style={{ color: "var(--text-muted)", fontSize: "0.82rem" }}>
+                  {selectedPlan.durationDays} Days Access
+                </div>
+              </div>
               <div
                 style={{
-                  background: "#111",
-                  border: "1px solid #292929",
-                  padding: "16px",
-                  borderRadius: "var(--radius-sm)",
-                  marginTop: "8px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  fontFamily: "var(--font-display)",
+                  fontSize: "1.8rem",
+                  fontWeight: 900,
+                  color: "var(--accent-red)",
                 }}
               >
-                <div>
-                  <div style={{ color: "#fff", fontWeight: 700 }}>
-                    Selected Plan: {selectedPlan.name}
-                  </div>
-                  <div style={{ color: "var(--text-secondary)", fontSize: "0.85rem" }}>
-                    Duration: {selectedPlan.durationDays} Days
-                  </div>
-                </div>
-                <div style={{ fontFamily: "var(--font-display)", fontSize: "1.8rem", fontWeight: 900, color: "var(--accent-red)" }}>
-                  {formatCurrency(selectedPlan.price)}
-                </div>
+                {formatCurrency(selectedPlan.price)}
               </div>
-            )}
-          </div>
+            </div>
+          )}
+        </div>
 
-          <button
-            type="submit"
-            disabled={submitting}
-            className="btn btn-primary btn-lg"
-            style={{ width: "100%" }}
-          >
-            {submitting ? "GENERATING MEMBER ID..." : "SUBMIT REGISTRATION"} <ArrowRight size={20} />
-          </button>
-        </form>
-      </div>
+        <button
+          type="submit"
+          id="join-submit-btn"
+          disabled={submitting}
+          className="btn btn-primary btn-lg"
+          style={{ width: "100%" }}
+        >
+          {submitting ? "GENERATING MEMBER ID..." : "SUBMIT REGISTRATION"}{" "}
+          {!submitting && <ArrowRight size={18} />}
+        </button>
+      </form>
     </div>
   );
 }

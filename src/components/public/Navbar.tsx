@@ -21,7 +21,7 @@ export default function PublicNavbar() {
     <nav className="public-navbar">
       <div className="container public-navbar-inner">
         <Link href="/" className="logo-text">
-          <Dumbbell size={28} className="text-accent" style={{ color: "var(--accent-red)" }} />
+          <Dumbbell size={26} style={{ color: "var(--accent-red)" }} />
           <span>TITAN</span> FORGE
         </Link>
 
@@ -38,7 +38,7 @@ export default function PublicNavbar() {
             </li>
           ))}
           <li>
-            <Link href="/join" className="btn btn-primary btn-sm">
+            <Link href="/join" className="btn btn-primary btn-sm" id="nav-join-btn">
               JOIN NOW
             </Link>
           </li>
@@ -46,19 +46,20 @@ export default function PublicNavbar() {
             <Link
               href="/admin"
               className="btn btn-secondary btn-sm"
+              id="nav-admin-btn"
               title="Admin Portal"
-              style={{ display: "flex", alignItems: "center", gap: "6px" }}
+              style={{ display: "flex", alignItems: "center", gap: "5px" }}
             >
-              <Shield size={16} /> ADMIN
+              <Shield size={14} /> ADMIN
             </Link>
           </li>
         </ul>
 
-        {/* Mobile toggle */}
+        {/* Mobile hamburger — shown via CSS at ≤900px */}
         <button
-          className="btn btn-secondary btn-sm"
-          style={{ display: "none" }}
+          className="nav-hamburger"
           id="mobile-menu-btn"
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -69,28 +70,29 @@ export default function PublicNavbar() {
       {mobileMenuOpen && (
         <div
           style={{
-            background: "#121212",
-            borderBottom: "1px solid var(--border)",
-            padding: "20px 24px",
+            background: "var(--bg-surface)",
+            borderTop: "1px solid var(--border)",
+            padding: "20px var(--container-pad)",
             display: "flex",
             flexDirection: "column",
-            gap: "16px",
+            gap: "4px",
           }}
         >
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="public-nav-link"
+              className={`public-nav-link ${pathname === link.href ? "active" : ""}`}
+              style={{ padding: "10px 0", display: "block", borderBottom: "1px solid var(--border)", fontSize: "1.15rem" }}
               onClick={() => setMobileMenuOpen(false)}
             >
               {link.name}
             </Link>
           ))}
-          <div style={{ display: "flex", gap: "12px", marginTop: "12px" }}>
+          <div style={{ display: "flex", gap: "12px", marginTop: "16px" }}>
             <Link
               href="/join"
-              className="btn btn-primary btn-sm"
+              className="btn btn-primary"
               style={{ flex: 1 }}
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -98,7 +100,8 @@ export default function PublicNavbar() {
             </Link>
             <Link
               href="/admin"
-              className="btn btn-secondary btn-sm"
+              className="btn btn-secondary"
+              style={{ display: "flex", alignItems: "center", gap: "6px" }}
               onClick={() => setMobileMenuOpen(false)}
             >
               <Shield size={16} /> ADMIN

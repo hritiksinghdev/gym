@@ -25,7 +25,8 @@ export default async function ContactPage() {
   const phone = settings?.phone || "+91 98765 43210";
   const whatsappNumber = settings?.whatsappNumber || "919876543210";
   const email = settings?.email || "contact@titanforgegym.com";
-  const openingHours = settings?.openingHours || "Mon - Sat: 5:00 AM - 11:00 PM | Sun: 6:00 AM - 8:00 PM";
+  const openingHours =
+    settings?.openingHours || "Mon - Sat: 5:00 AM - 11:00 PM | Sun: 6:00 AM - 8:00 PM";
   const googleMapsUrl = settings?.googleMapsUrl || "https://maps.google.com";
 
   const whatsappChatUrl = generateWhatsAppUrl(
@@ -37,79 +38,178 @@ export default async function ContactPage() {
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <PublicNavbar />
 
-      {/* Header Banner */}
-      <section style={{ backgroundColor: "#111", borderBottom: "1px solid var(--border)", padding: "60px 0" }}>
+      {/* Page Header */}
+      <div className="page-header">
         <div className="container">
-          <div style={{ color: "var(--accent-red)", fontWeight: 700, fontSize: "0.9rem", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "8px" }}>
-            GET IN TOUCH
-          </div>
-          <h1 style={{ fontSize: "3.5rem", color: "#fff" }}>LOCATION & CONTACT</h1>
-          <p style={{ color: "var(--text-secondary)", fontSize: "1.15rem", maxWidth: "600px", marginTop: "12px" }}>
+          <span className="page-header-label">Get In Touch</span>
+          <h1 className="page-header-title">LOCATION &amp; CONTACT</h1>
+          <p className="page-header-sub">
             Drop by our facility during floor hours or reach out directly to the front desk team.
           </p>
         </div>
-      </section>
+      </div>
 
-      {/* Contact Information & Map */}
-      <section style={{ padding: "80px 0" }}>
+      {/* Contact Info */}
+      <section className="section">
         <div className="container">
-          <div className="grid-2" style={{ gap: "48px" }}>
-            {/* Contact Details Cards */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-              <div className="card">
-                <div style={{ display: "flex", gap: "16px", alignItems: "flex-start" }}>
-                  <div style={{ width: "44px", height: "44px", background: "rgba(229, 56, 59, 0.15)", borderRadius: "var(--radius-sm)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-red)", flexShrink: 0 }}>
-                    <MapPin size={22} />
+          <div className="grid-2" style={{ gap: "48px", alignItems: "flex-start" }}>
+            {/* Left: contact rows + WhatsApp */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
+              {/* Address */}
+              <div
+                style={{
+                  display: "flex",
+                  gap: "16px",
+                  alignItems: "flex-start",
+                  paddingBottom: "24px",
+                  marginBottom: "24px",
+                  borderBottom: "1px solid var(--border)",
+                }}
+              >
+                <div
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    background: "var(--accent-red-glow)",
+                    borderRadius: "var(--radius-sm)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--accent-red)",
+                    flexShrink: 0,
+                  }}
+                >
+                  <MapPin size={20} />
+                </div>
+                <div>
+                  <div
+                    style={{
+                      fontSize: "0.75rem",
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      letterSpacing: "1px",
+                      color: "var(--text-muted)",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    Gym Address
                   </div>
-                  <div>
-                    <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "6px" }}>GYM FACILITY ADDRESS</h3>
-                    <p style={{ color: "var(--text-secondary)", lineHeight: "1.5", fontSize: "0.95rem" }}>
-                      {address}
-                    </p>
-                    <a
-                      href={googleMapsUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      style={{ display: "inline-flex", alignItems: "center", gap: "6px", color: "var(--accent-red)", fontWeight: 600, fontSize: "0.88rem", marginTop: "10px" }}
-                    >
-                      Open in Google Maps <ExternalLink size={14} />
-                    </a>
-                  </div>
+                  <p style={{ color: "var(--text-primary)", fontSize: "0.95rem", lineHeight: "1.5" }}>
+                    {address}
+                  </p>
+                  <a
+                    href={googleMapsUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      color: "var(--accent-red)",
+                      fontWeight: 600,
+                      fontSize: "0.84rem",
+                      marginTop: "8px",
+                    }}
+                  >
+                    Open in Google Maps <ExternalLink size={13} />
+                  </a>
                 </div>
               </div>
 
-              <div className="card">
-                <div style={{ display: "flex", gap: "16px", alignItems: "flex-start" }}>
-                  <div style={{ width: "44px", height: "44px", background: "rgba(229, 56, 59, 0.15)", borderRadius: "var(--radius-sm)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-red)", flexShrink: 0 }}>
-                    <Clock size={22} />
+              {/* Hours */}
+              <div
+                style={{
+                  display: "flex",
+                  gap: "16px",
+                  alignItems: "flex-start",
+                  paddingBottom: "24px",
+                  marginBottom: "24px",
+                  borderBottom: "1px solid var(--border)",
+                }}
+              >
+                <div
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    background: "var(--accent-red-glow)",
+                    borderRadius: "var(--radius-sm)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--accent-red)",
+                    flexShrink: 0,
+                  }}
+                >
+                  <Clock size={20} />
+                </div>
+                <div>
+                  <div
+                    style={{
+                      fontSize: "0.75rem",
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      letterSpacing: "1px",
+                      color: "var(--text-muted)",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    Training Hours
                   </div>
-                  <div>
-                    <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "6px" }}>OPERATING HOURS</h3>
-                    <p style={{ color: "var(--text-secondary)", lineHeight: "1.6", fontSize: "0.95rem" }}>
-                      {openingHours}
-                    </p>
-                  </div>
+                  <p style={{ color: "var(--text-primary)", fontSize: "0.95rem", lineHeight: "1.6" }}>
+                    {openingHours}
+                  </p>
                 </div>
               </div>
 
-              <div className="card">
-                <div style={{ display: "flex", gap: "16px", alignItems: "flex-start" }}>
-                  <div style={{ width: "44px", height: "44px", background: "rgba(229, 56, 59, 0.15)", borderRadius: "var(--radius-sm)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-red)", flexShrink: 0 }}>
-                    <Phone size={22} />
+              {/* Phone & Email */}
+              <div
+                style={{
+                  display: "flex",
+                  gap: "16px",
+                  alignItems: "flex-start",
+                  paddingBottom: "28px",
+                  marginBottom: "28px",
+                  borderBottom: "1px solid var(--border)",
+                }}
+              >
+                <div
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    background: "var(--accent-red-glow)",
+                    borderRadius: "var(--radius-sm)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--accent-red)",
+                    flexShrink: 0,
+                  }}
+                >
+                  <Phone size={20} />
+                </div>
+                <div>
+                  <div
+                    style={{
+                      fontSize: "0.75rem",
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      letterSpacing: "1px",
+                      color: "var(--text-muted)",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    Phone &amp; Email
                   </div>
-                  <div>
-                    <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "6px" }}>PHONE & SUPPORT</h3>
-                    <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", marginBottom: "4px" }}>
-                      {phone}
-                    </p>
-                    <p style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>
-                      {email}
-                    </p>
-                  </div>
+                  <p style={{ color: "var(--text-primary)", fontSize: "0.95rem", marginBottom: "4px" }}>
+                    {phone}
+                  </p>
+                  <p style={{ color: "var(--text-secondary)", fontSize: "0.88rem" }}>
+                    <Mail size={13} style={{ display: "inline", marginRight: "4px", verticalAlign: "middle" }} />
+                    {email}
+                  </p>
                 </div>
               </div>
 
-              {/* Direct WhatsApp CTA */}
               <a
                 href={whatsappChatUrl}
                 target="_blank"
@@ -117,37 +217,100 @@ export default async function ContactPage() {
                 className="btn btn-whatsapp btn-lg"
                 style={{ width: "100%", textAlign: "center" }}
               >
-                <MessageSquare size={20} /> CHAT ON WHATSAPP WITH DESK
+                <MessageSquare size={18} /> CHAT ON WHATSAPP
               </a>
             </div>
 
-            {/* Quick Visit Card / Google Map Preview */}
-            <div className="card" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-              <div>
-                <h3 style={{ fontSize: "1.6rem", color: "#fff", marginBottom: "12px" }}>FIRST TIME VISITING?</h3>
-                <p style={{ color: "var(--text-secondary)", lineHeight: "1.6", fontSize: "0.95rem", marginBottom: "24px" }}>
-                  We encourage prospective lifters to drop in during training hours, inspect our equipment, meet our coaches, and see our community in action.
-                </p>
+            {/* Right: visitor info */}
+            <div>
+              <h3
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "1.7rem",
+                  color: "#fff",
+                  marginBottom: "12px",
+                }}
+              >
+                FIRST TIME VISITING?
+              </h3>
+              <p
+                style={{
+                  color: "var(--text-secondary)",
+                  lineHeight: "1.65",
+                  fontSize: "0.95rem",
+                  marginBottom: "24px",
+                }}
+              >
+                We encourage prospective lifters to drop in during training hours, inspect our equipment, meet
+                our coaches, and see our community in action.
+              </p>
 
-                <div style={{ background: "#111", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", padding: "20px", marginBottom: "24px" }}>
-                  <div style={{ fontWeight: 700, color: "#fff", marginBottom: "8px", fontSize: "0.95rem" }}>
-                    VISITOR GUIDELINES:
-                  </div>
-                  <ul style={{ listStyle: "disc", paddingLeft: "20px", color: "var(--text-secondary)", fontSize: "0.88rem", display: "flex", flexDirection: "column", gap: "6px" }}>
-                    <li>Clean training shoes are mandatory on the gym floor</li>
-                    <li>Always bring a workout towel for hygiene</li>
-                    <li>Chalk is provided at designated lifting platforms</li>
-                    <li>Re-rack all plates and dumbbells after use</li>
-                  </ul>
+              <div
+                style={{
+                  marginBottom: "28px",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "0.75rem",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                    letterSpacing: "1px",
+                    color: "var(--text-muted)",
+                    marginBottom: "12px",
+                  }}
+                >
+                  VISITOR GUIDELINES
                 </div>
+                <ul
+                  style={{
+                    listStyle: "none",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                  }}
+                >
+                  {[
+                    "Clean training shoes are mandatory on the gym floor",
+                    "Always bring a workout towel for hygiene",
+                    "Chalk is provided at designated lifting platforms",
+                    "Re-rack all plates and dumbbells after use",
+                  ].map((rule, i) => (
+                    <li
+                      key={i}
+                      style={{
+                        display: "flex",
+                        gap: "10px",
+                        color: "var(--text-secondary)",
+                        fontSize: "0.9rem",
+                        alignItems: "flex-start",
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: "var(--accent-red)",
+                          fontFamily: "var(--font-display)",
+                          fontWeight: 800,
+                          fontSize: "1rem",
+                          lineHeight: 1,
+                          marginTop: "2px",
+                          flexShrink: 0,
+                        }}
+                      >
+                        —
+                      </span>
+                      {rule}
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               <div
                 style={{
-                  height: "180px",
+                  height: "200px",
                   borderRadius: "var(--radius-sm)",
-                  background: "url('https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=1000&auto=format&fit=crop&q=80') center/cover no-repeat",
-                  border: "1px solid var(--border)",
+                  background:
+                    "url('https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=1000&auto=format&fit=crop&q=80') center/cover no-repeat",
                 }}
               />
             </div>

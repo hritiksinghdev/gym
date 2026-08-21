@@ -26,38 +26,51 @@ export default async function AboutPage() {
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <PublicNavbar />
 
-      {/* Header Banner */}
-      <section style={{ backgroundColor: "#111", borderBottom: "1px solid var(--border)", padding: "60px 0" }}>
+      {/* Page Header — no border, background shade handles separation */}
+      <div className="page-header">
         <div className="container">
-          <div style={{ color: "var(--accent-red)", fontWeight: 700, fontSize: "0.9rem", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "8px" }}>
-            ABOUT OUR FACILITY
-          </div>
-          <h1 style={{ fontSize: "3.5rem", color: "#fff" }}>WHERE STRENGTH IS FORGED</h1>
-          <p style={{ color: "var(--text-secondary)", fontSize: "1.15rem", maxWidth: "600px", marginTop: "12px" }}>
+          <span className="page-header-label">About Our Facility</span>
+          <h1 className="page-header-title">WHERE STRENGTH IS FORGED</h1>
+          <p className="page-header-sub">
             Learn about {gymName}&apos;s founding philosophy, training equipment, and community standards.
           </p>
         </div>
-      </section>
+      </div>
 
-      {/* Main Story & Philosophy */}
-      <section style={{ padding: "80px 0" }}>
+      {/* Philosophy */}
+      <section className="section">
         <div className="container">
           <div className="grid-2" style={{ alignItems: "center" }}>
             <div>
-              <div style={{ color: "var(--accent-red)", fontWeight: 700, fontSize: "0.85rem", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "8px" }}>
-                OUR PHILOSOPHY
-              </div>
-              <h2 style={{ fontSize: "2.4rem", color: "#fff", marginBottom: "20px" }}>
-                NO GIMMICKS. JUST PROGRESSION.
-              </h2>
-              <p style={{ color: "var(--text-secondary)", lineHeight: "1.7", fontSize: "1rem", marginBottom: "16px" }}>
-                {gymName} was built with a single mandate: create a space where athletes, lifters, and everyday fitness enthusiasts can push their physical limits without fighting for equipment or dealing with commercial gym distractions.
+              <span className="section-label">Our Philosophy</span>
+              <h2 className="section-title">NO GIMMICKS.<br />JUST PROGRESSION.</h2>
+              <p
+                style={{
+                  color: "var(--text-secondary)",
+                  lineHeight: "1.7",
+                  fontSize: "1rem",
+                  marginBottom: "16px",
+                  marginTop: "16px",
+                }}
+              >
+                {gymName} was built with a single mandate: create a space where athletes, lifters, and everyday
+                fitness enthusiasts can push their physical limits without fighting for equipment or dealing with
+                commercial gym distractions.
               </p>
-              <p style={{ color: "var(--text-secondary)", lineHeight: "1.7", fontSize: "1rem", marginBottom: "28px" }}>
-                Every barbell, rack, and bench in our facility has been selected for durability, biomechanical precision, and athlete safety. We believe that true fitness comes from consistent compound training, intelligent progression, and disciplined recovery.
+              <p
+                style={{
+                  color: "var(--text-secondary)",
+                  lineHeight: "1.7",
+                  fontSize: "1rem",
+                  marginBottom: "28px",
+                }}
+              >
+                Every barbell, rack, and bench in our facility has been selected for durability, biomechanical
+                precision, and athlete safety. True fitness comes from consistent compound training, intelligent
+                progression, and disciplined recovery.
               </p>
 
-              <div style={{ display: "flex", gap: "16px" }}>
+              <div style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
                 <Link href="/join" className="btn btn-primary">
                   START TRAINING WITH US
                 </Link>
@@ -71,70 +84,86 @@ export default async function AboutPage() {
               style={{
                 height: "420px",
                 borderRadius: "var(--radius-md)",
-                border: "1px solid var(--border)",
-                background: "url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=1200&auto=format&fit=crop&q=80') center/cover no-repeat",
+                background:
+                  "url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=1200&auto=format&fit=crop&q=80') center/cover no-repeat",
               }}
             />
           </div>
         </div>
       </section>
 
-      {/* Facilities Grid */}
-      <section style={{ padding: "80px 0", backgroundColor: "#0c0c0c", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
+      {/* Facilities — alternate background, no border lines */}
+      <section className="section-alt">
         <div className="container">
-          <div style={{ textAlign: "center", maxWidth: "600px", margin: "0 auto 48px" }}>
-            <div style={{ color: "var(--accent-red)", fontWeight: 700, fontSize: "0.85rem", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: "8px" }}>
-              FACILITIES & EQUIPMENT
-            </div>
-            <h2 style={{ fontSize: "2.5rem", color: "#fff" }}>DESIGNED FOR HIGH PERFORMANCE</h2>
+          <div className="section-header centered">
+            <span className="section-label">Facilities &amp; Equipment</span>
+            <h2 className="section-title">DESIGNED FOR HIGH PERFORMANCE</h2>
           </div>
 
           <div className="grid-3">
             <div className="card">
-              <Dumbbell size={32} style={{ color: "var(--accent-red)", marginBottom: "16px" }} />
-              <h3 style={{ fontSize: "1.3rem", color: "#fff", marginBottom: "10px" }}>Powerlifting & Heavy Free Weights</h3>
+              <Dumbbell size={28} style={{ color: "var(--accent-red)", marginBottom: "14px" }} />
+              <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "10px" }}>
+                Powerlifting &amp; Heavy Free Weights
+              </h3>
               <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", lineHeight: "1.6" }}>
-                Full sets of calibrated competition plates, Texas power bars, dedicated deadlift platforms with shock-absorbent drop zones, and heavy dumbbells up to 60kg.
+                Full sets of calibrated competition plates, Texas power bars, dedicated deadlift platforms with
+                shock-absorbent drop zones, and heavy dumbbells up to 60 kg.
               </p>
             </div>
 
             <div className="card">
-              <Flame size={32} style={{ color: "var(--accent-red)", marginBottom: "16px" }} />
-              <h3 style={{ fontSize: "1.3rem", color: "#fff", marginBottom: "10px" }}>Conditioning & Turf Zone</h3>
+              <Flame size={28} style={{ color: "var(--accent-red)", marginBottom: "14px" }} />
+              <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "10px" }}>
+                Conditioning &amp; Turf Zone
+              </h3>
               <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", lineHeight: "1.6" }}>
-                30-meter sprint turf, weighted push sleds, battle ropes, assault bikes, rowers, and plyometric boxes for high-intensity athletic conditioning.
+                30-meter sprint turf, weighted push sleds, battle ropes, assault bikes, rowers, and plyometric
+                boxes for high-intensity athletic conditioning.
               </p>
             </div>
 
             <div className="card">
-              <Trophy size={32} style={{ color: "var(--accent-red)", marginBottom: "16px" }} />
-              <h3 style={{ fontSize: "1.3rem", color: "#fff", marginBottom: "10px" }}>Custom Isolation Machines</h3>
+              <Trophy size={28} style={{ color: "var(--accent-red)", marginBottom: "14px" }} />
+              <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "10px" }}>
+                Custom Isolation Machines
+              </h3>
               <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", lineHeight: "1.6" }}>
-                Biomechanical lever arms, pendulum squats, belt squat machines, standing chest-supported rows, and dual adjustable cable crossovers.
+                Biomechanical lever arms, pendulum squats, belt squat machines, standing chest-supported rows,
+                and dual adjustable cable crossovers.
               </p>
             </div>
 
             <div className="card">
-              <ShieldCheck size={32} style={{ color: "var(--accent-red)", marginBottom: "16px" }} />
-              <h3 style={{ fontSize: "1.3rem", color: "#fff", marginBottom: "10px" }}>Lockers & Showers</h3>
+              <ShieldCheck size={28} style={{ color: "var(--accent-red)", marginBottom: "14px" }} />
+              <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "10px" }}>
+                Lockers &amp; Showers
+              </h3>
               <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", lineHeight: "1.6" }}>
-                Clean, well-maintained locker rooms with hot showers, changing areas, and secure individual storage lockers for all members.
+                Clean, well-maintained locker rooms with hot showers, changing areas, and secure individual
+                storage lockers for all members.
               </p>
             </div>
 
             <div className="card">
-              <Award size={32} style={{ color: "var(--accent-red)", marginBottom: "16px" }} />
-              <h3 style={{ fontSize: "1.3rem", color: "#fff", marginBottom: "10px" }}>Body Composition & InBody Assessment</h3>
+              <Award size={28} style={{ color: "var(--accent-red)", marginBottom: "14px" }} />
+              <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "10px" }}>
+                Body Composition &amp; InBody Assessment
+              </h3>
               <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", lineHeight: "1.6" }}>
-                Periodic segmental body composition analysis, measuring muscle mass, body fat percentage, visceral fat levels, and metabolic rate.
+                Periodic segmental body composition analysis measuring muscle mass, body fat percentage, visceral
+                fat levels, and metabolic rate.
               </p>
             </div>
 
             <div className="card">
-              <HeartHandshake size={32} style={{ color: "var(--accent-red)", marginBottom: "16px" }} />
-              <h3 style={{ fontSize: "1.3rem", color: "#fff", marginBottom: "10px" }}>Supportive Community</h3>
+              <HeartHandshake size={28} style={{ color: "var(--accent-red)", marginBottom: "14px" }} />
+              <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "10px" }}>
+                Supportive Community
+              </h3>
               <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", lineHeight: "1.6" }}>
-                Spotters on demand, zero judgment, and a group of like-minded individuals focused on mutual encouragement and relentless progress.
+                Spotters on demand, zero judgment, and a group of like-minded individuals focused on mutual
+                encouragement and relentless progress.
               </p>
             </div>
           </div>
